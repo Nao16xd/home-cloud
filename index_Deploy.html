@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>デプロイ申請システム利用申請</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9fc;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(to right, #140079 70%, #d2d6e8);
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .form-container {
+            max-width: 1000px;
+            margin: 120px auto 40px;
+            padding: 20px;
+            background-color: #e8f4fc;
+            border-radius: 10px;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-content {
+            display: flex;
+            gap: 20px;
+        }
+
+        .form-container:hover {
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        fieldset {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #d1d1d1;
+            border-radius: 8px;
+        }
+
+        legend {
+            font-weight: bold;
+            color: #4a90e2;
+            padding: 0 5px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 15px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        input, select, textarea {
+            width: calc(100% - 10px);
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #d1d1d1;
+            border-radius: 6px;
+            font-size: 15px;
+            background-color: #fafafa;
+            box-sizing: border-box;
+            transition: border 0.3s, background-color 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #4a90e2;
+            background-color: #f0f8ff;
+        }
+
+        .button-container {
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        button {
+            width: 30%;
+            padding: 12px;
+            background-color: #4a90e2;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #357ab8;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>ホームクラウド - デプロイ申請システム利用申請</h1>
+        <div class="breadcrumb">
+            <a href="index.html">トップページ</a> >> 
+            <a href="home-cloud.html">各種申請</a> >> 
+            デプロイ申請システム利用申請
+        </div>
+    </header>
+
+    <div class="form-container">
+        <form action="home-cloud-f.html" method="GET">
+            <div class="form-content">
+                <fieldset>
+                    <legend>申請者情報</legend>
+                    <label for="employeeId">社員番号:</label>
+                    <input type="text" id="employeeId" name="employeeId" required>
+
+                    <label for="name">氏名:</label>
+                    <input type="text" id="name" name="name" required>
+
+                    <label for="department">所属:</label>
+                    <input type="text" id="department" name="department" required>
+
+                    <label for="extension">内線:</label>
+                    <input type="text" id="extension" name="extension" required>
+                </fieldset>
+                
+                <fieldset>
+                    <legend>申請内容</legend>
+                    <label for="targetId">システムコード:</label>
+                    <input type="text" id="targetId" name="targetId" required>
+
+                    <label for="applicationType">申請区分:</label>
+                    <select id="applicationType" name="applicationType" required>
+                        <option value="" disabled selected>--選択してください--</option>
+                        <option value="配布希望時刻（新規）申請">配布希望時刻（新規）申請</option>
+                        <option value="配布希望時刻（変更）申請">配布希望時刻（変更）申請</option>
+                        <option value="配布希望時刻（削除）申請">配布希望時刻（削除）申請</option>
+                        <option value="ユーザー情報（登録）申請">ユーザー情報（登録）申請</option>
+                        <option value="ユーザー情報（変更）申請">ユーザー情報（変更）申請</option>
+                        <option value="ユーザー情報（削除）申請">ユーザー情報（削除）申請</option>
+                        <option value="アカウント削除申請">アカウント削除申請</option>
+                        <option value="VMリソース（登録）申請">VMリソース（登録）申請</option>
+                        <option value="VMリソース（削除）申請">VMリソース（削除）申請</option>
+                        <option value="定期ジョブスキップ申請">定期ジョブスキップ申請</option>
+                        <option value="帳票生成機能利用申請">帳票生成機能利用申請</option>
+                    </select>
+
+                    <label for="preferredDate">作業希望日:</label>
+                    <input type="date" id="preferredDate" name="preferredDate" required>
+
+                    <label for="reason">申請理由:</label>
+                    <textarea id="reason" name="reason" rows="3" required></textarea>
+                </fieldset>
+            </div>
+            
+            <div class="button-container">
+                <button type="submit">申請</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

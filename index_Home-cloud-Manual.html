@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>クラウドポータル - ホームクラウドマニュアル置き場</title>
+    <style>
+        /* 使うやつ */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: linear-gradient(to right, #140079 70%,#d2d6e8 );
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        h1 {
+            color: white;
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .upload-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .upload-form input[type="file"] {
+            margin-bottom: 15px;
+        }
+        .upload-form button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .upload-form button:hover {
+            background-color: #0056b3;
+        }
+        .file-list {
+            margin-top: 20px;
+        }
+        .file-item {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>ホームマニュアル置き場</h1>
+</header>
+<div class="container">
+    <form class="upload-form" id="uploadForm" enctype="multipart/form-data">
+        <input type="file" id="fileInput" name="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt">
+        <button type="button" onclick="uploadFile()">アップロード</button>
+    </form>
+    <div class="file-list" id="fileList">
+        <h2>アップロード済みのファイル</h2>
+        <!-- アップロード済みファイルをリストとして表示 -->
+    </div>
+</div>
+<script>
+    async function uploadFile() {
+        const fileInput = document.getElementById('fileInput');
+        const file = fileInput.files[0];
+        if (!file) {
+            alert('ファイルを選択してください');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+            const response = await fetch('/upload', {
+                method: 'POST',
+                body: formData
+            });
+            if (response.ok) {
+                alert('アップロードが完了しました');
+                fetchUploadedFiles();
+            } else {
+                alert('アップロードに失敗しました');
+            }
+        } catch (error) {
+            alert('エラーが発生しました');
+        }
+    }
+
+    async function fetchUploadedFiles() {
+        try {
+            const response = await fetch('/files');
+            if (response.ok) {
+                const files = await response.json();
+                const fileList = document.getElementById('fileList');
+                fileList.innerHTML = '<h2>アップロード済みのファイル</h2>';
+                files.forEach(file => {
+                    const fileItem = document.createElement('div');
+                    fileItem.className = 'file-item';
+                    fileItem.innerHTML = `<a href="/uploads/${file}" target="_blank">${file}</a>`;
+                    fileList.appendChild(fileItem);
+                });
+            }
+        } catch (error) {
+            console.error('ファイルリストの取得に失敗しました', error);
+        }
+    }
+
+    // ページ読み込み時にアップロード済みファイルを取得
+    document.addEventListener('DOMContentLoaded', fetchUploadedFiles);
+</script>
+</body>
+</html>

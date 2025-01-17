@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ビルトインアドミンパスワード開示申請</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9fc;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(to right, #140079 70%, #d2d6e8);
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .form-container {
+            max-width: 1000px;
+            margin: 120px auto 40px;
+            padding: 20px;
+            background-color: #e8f4fc;
+            border-radius: 10px;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-content {
+            display: flex;
+            gap: 20px;
+        }
+
+        fieldset {
+            flex: 1;
+            padding: 15px;
+            border: 1px solid #d1d1d1;
+            border-radius: 8px;
+        }
+
+        legend {
+            font-weight: bold;
+            color: #4a90e2;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 15px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        input, textarea {
+            width: calc(100% - 10px);
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #d1d1d1;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        .radio-group, .checkbox-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .radio-group label, .checkbox-group label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .radio-group input, .checkbox-group input {
+            margin: 0;
+        }
+
+        button {
+            width: 30%;
+            padding: 12px;
+            background-color: #4a90e2;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #357ab8;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>ホームクラウド - ビルトインアドミンパスワード開示申請</h1>
+</header>
+
+<div class="form-container">
+    <form action="home-cloud-f.html" method="POST">
+        <div class="form-content">
+            <fieldset>
+                <legend>申請者情報</legend>
+                <label for="employeeId">社員番号:</label>
+                <input type="text" id="employeeId" name="employeeId" required>
+
+                <label for="name">氏名:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="department">所属:</label>
+                <input type="text" id="department" name="department" required>
+
+                <label for="extension">内線:</label>
+                <input type="text" id="extension" name="extension" required>
+            </fieldset>
+            
+            <fieldset>
+                <legend>申請内容</legend>
+                <label>環境:</label>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="environment" value="ST" required> ST</label>
+                    <label><input type="checkbox" name="environment" value="本番"> 本番</label>
+                </div>
+
+                <label for="domain">作業対象ドメイン（ローカル）:</label>
+                <input type="text" id="domain" name="domain" required>
+
+                <label for="systemCode">作業対象システムコード:</label>
+                <input type="text" id="systemCode" name="systemCode" required>
+
+                <label for="serverName">作業対象サーバー名:</label>
+                <input type="text" id="serverName" name="serverName" required>
+
+                <label for="desiredDate">開示希望日:</label>
+                <input type="date" id="desiredDate" name="desiredDate" required>
+
+                <label for="reason">申請理由:</label>
+                <textarea id="reason" name="reason" rows="3" required></textarea>
+
+                <label for="remarks">備考:</label>
+                <textarea id="remarks" name="remarks" rows="3"></textarea>
+
+                <label>注意事項:</label>
+                <p>以下の内容をよく読み、同意されたらチェックを入れてください。</p>
+                <div class="checkbox-group">
+                    <label>
+                        <input type="checkbox" name="agreement" required>
+                        完了メールを受信後、意図どおりに動作するかを申請者が確認します。
+                    </label>
+                </div>
+            </fieldset>
+        </div>
+
+        <div style="text-align: right; margin-top: 20px;">
+            <button type="submit">申請</button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

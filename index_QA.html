@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QA送信フォーム</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: linear-gradient(to right, #140079 70%, #d2d6e8);
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .form-group textarea {
+            height: 150px;
+        }
+        .form-group button {
+            padding: 10px 20px;
+            background-color: #5096c9;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .form-group button:hover {
+            background-color: #5096c9;
+        }
+    header h1 {
+  margin: 0; /* 上下の余白を0に */
+  font-size: 24px; /* フォントサイズも小さく調整 */
+}
+
+    </style>
+</head>
+<body>
+<header>
+    <h1>QA送信フォーム</h1>
+</header>
+<div class="container">
+    <form id="qaForm">
+        <div class="form-group">
+            <label for="name">名前</label>
+            <input type="text" id="name" name="name" placeholder="あなたの名前を入力してください" required>
+        </div>
+        <div class="form-group">
+            <label for="email">メールアドレス</label>
+            <input type="email" id="email" name="email" placeholder="メールアドレスを入力してください" required>
+        </div>
+        <div class="form-group">
+            <label for="question">質問内容</label>
+            <textarea id="question" name="question" placeholder="質問を入力してください" required></textarea>
+        </div>
+        <div class="form-group">
+            <button type="submit">送信</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

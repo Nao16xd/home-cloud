@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNS登録申請</title>
+    <style>
+        /* 使うやつ */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9fc;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(to right, #140079 70%, #d2d6e8);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            top: 0;
+    left: 0;
+    right: 0;  /* 横いっぱいに広げる */
+    z-index: 99;
+    width: 100%;  
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .form-container {
+            max-width: 1000px; /* フォームの最大幅を小さくする */
+    margin-top: 0px;
+    margin-left: 0px; /* 上部の余白を調整 */   /* 必要に応じてパディングを調整 */
+  margin-bottom: 20px; 
+    background-color: #fae9d1;
+    border-radius: 10px;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    top: 15px
+        }
+
+        .form-content {
+            display: flex;
+            gap: 20px;
+            justify-content: flex-end;
+        }
+
+        fieldset {
+            flex: 1;
+            padding: 10px; /* フィールドセットのパディングを減らす */
+            border: 1px solid #d1d1d1;/* フィールドセットのパディングを減らす */
+            border-radius: 8px;
+        }
+
+        legend {
+            font-weight: bold;
+            color: #e29b4a;
+            padding: 0 5px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px; /* ラベル下の隙間を狭く */
+            font-size: 15px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        input, select, textarea {
+            width: calc(100% - 10px); /* 入力フィールドの横幅を調整 */
+            padding: 8px; /* 入力フィールドのパディングを減らす */
+            margin-bottom: 10px; /* 入力フィールド下の隙間を狭く */
+            border: 1px solid #d1d1d1;
+            border-radius: 6px;
+            font-size: 15px;
+            background-color: #fafafa;
+            box-sizing: border-box;
+            transition: border 0.3s, background-color 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #4a90e2;
+            background-color: #f0f8ff;
+        }
+
+        .button-container {
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        button {
+            width: 30%;
+            padding: 12px; /* ボタンのパディングを調整 */
+            background-color: #e29b4a;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button.alter{
+            width: 20%;
+            padding: 12px; /* ボタンのパディングを調整 */
+            background-color: #000000;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #a06c31;
+        }
+
+        button.alter:hover {
+            background-color: #454444;
+        }
+        .sidebar-wrapper {
+    position: relative; /* 固定配置 */
+    top: 0px;       /* 上部からの距離 */
+    left: 0px;       /* 左端からの距離 */
+    width: 250px;     /* 幅 */
+    height: 150vh; /* ビューポートの高さを超えないように設定 */
+    overflow-y: auto; /* 縦スクロール有効 */
+    background-color: #f4f4f4;
+    border: 1px solid #cccccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+        /* ホームクラウド サイドバー */
+        .sidebar-wrapper {
+            left: 0px;
+            background-color: #d2d6e8;
+        }
+        .sidebar-title {
+            background-color: transparent;
+            color: black;
+            padding: 10px;
+            font-size: 16px;
+            text-align: center;
+            font-weight: bold;
+            top: 10px;
+        }
+        .menu-section {
+            margin-bottom: 15px;
+        }
+        .menu-section a {
+            display: block;
+            padding: 3px;
+            color: #3498db;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .menu-section a:hover {
+            text-decoration: underline;
+        }
+        .sidebar-title {
+            background-color: transparent;
+            color: black;
+            padding: 10px;
+            font-size: 16px;
+            text-align: center;
+            font-weight: bold;
+            top: 10px;
+        }
+        .menu-section {
+            margin-bottom: 15px;
+        }
+        .menu-section a {
+            display: block;
+            padding: 3px;
+            color: #3498db;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .menu-section a:hover {
+            text-decoration: underline;
+        }
+        .sidebar-title{
+    color:#140079
+}
+.menu-section h1{
+color: #5096c9;
+}
+.menu-section h1 {
+    display: block;
+    padding: 10px;
+    color: black; /* 文字色を青に変更 */
+    text-decoration: none;
+    font-size: 14px;
+}
+.container {
+  display: flex;
+  align-items: stretch;  /* 高さを揃える */
+}
+.submenu {
+    display: none;
+    padding-left: 20px;
+}
+
+.submenu a {
+    padding: 5px;
+    color: #3498db;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.submenu a:hover {
+    text-decoration: underline;
+}
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>DL AWS - DNS登録申請</h1>
+    </header>
+
+    <div class="container">
+        <div class="sidebar-wrapper">
+            <div class="sidebar-title">メニュー</div>
+            <div class="menu-section">
+                <h1>ホームクラウド 各種申請</h1>
+                <a href="#" class="toggle-menu menu-title"><span class="arrow">▶</span>アプリ運用</a>
+            <div class="submenu">
+                <a href="#"><span class="arrow">▶</span>デプロイ申請システム利用申請</a>
+                <a href="#">作業依頼表</a>
+            </div>
+                <a href="#" class="toggle-menu menu-title"><span class="arrow">▶</span>Azureインフラ運用</a>
+                <div class="submenu">
+                    <a href="#"><span class="arrow">▶</span>DNSレコード登録申請</a>
+                    <a href="#" class="toggle-menu"><span class="arrow">▶</span>ジョブ実行エージェント申請履歴</a>
+                    <div class="submenu">
+                        <a href="home-cloud-job.html">申請</a>
+                        <a href="index_JobAgentHistory.html">申請履歴一覧</a>
+                    </div>
+                </div>
+                <a href="#" class="toggle-menu menu-title"><span class="arrow">▶</span>AzureAD申請</a>
+                <div class="submenu">
+                    <a href="#"><span class="arrow">▶</span>Azureアカウント登録申請</a>
+                    <a href="#"><span class="arrow">▶</span>Azureグループメンバー変更申請</a>
+                    <a href="#"><span class="arrow">▶</span>AzureDevOpsグループ（組織）登録申請</a>
+                    <a href="#" class="toggle-menu"><span class="arrow">▶</span>Azureアカウントパスワードリセット申請履歴</a>
+                    <div class="submenu">
+                        <a href="home-cloud-reset.html">申請</a>
+                        <a href="index_HomeCloudHistory.html">申請履歴一覧</a>
+                    </div>
+                    <a href="#"><span class="arrow">▶</span>ホームクラウドJP1利用申請</a>
+                </div>
+                <a href="#" class="toggle-menu menu-title"><span class="arrow">▶</span>Azure監視申請</a>
+                <div class="submenu">
+                    <a href="#"><span class="arrow">▶</span>WEBレスポンス監視申請</a>
+                    <a href="#"><span class="arrow">▶</span>イベントログ監視申請</a>
+                    <a href="#"><span class="arrow">▶</span>プロセス監視申請</a>
+                    <a href="#"><span class="arrow">▶</span>警告アラートメール送信先設定申請</a>
+                    <a href="#"><span class="arrow">▶</span>死活監視申請</a>
+                    <a href="#"><span class="arrow">▶</span>性能・容量監視申請</a>
+                    <a href="#"><span class="arrow">▶</span>任意ログ監視申請</a>
+                </div>
+                <a href="index_Home-cloud-Manual.html">ホームクラウド マニュアル</a>
+                <h1>DL-AWS 各種申請</h1>
+                <a href="#" class="toggle-menu menu-title"><span class="arrow">▶</span>ジャンル1</a>
+                <div class="submenu">
+                    <a href="#"><span class="arrow">▶</span>AWSアカウント利用登録/削除申請</a>
+                    <a href="#"><span class="arrow">▶</span>IAMIdentityCenter登録/削除申請</a>
+                    <a href="#"><span class="arrow">▶</span>中継用ファイルサーバー ユーザー登録/削除申請</a>
+                </div>
+                <a href="#" class="toggle-menu menu-title"><span class="arrow">▶</span>ジャンル2</a>
+                <div class="submenu">
+                    <a href="#"><span class="arrow">▶</span>ネットワーク接続申請</a>
+                    <a href="#"><span class="arrow">▶</span>外部サイト接続申請</a>
+                    <a href="#"><span class="arrow">▶</span>DNS登録申請</a>
+                    <a href="#"><span class="arrow">▶</span>(基盤利用者向け)IAMIdentityCenterユーザー特権申請</a>
+                    <a href="#"><span class="arrow">▶</span>外部証明書発行申請</a>
+                    <a href="#">社内標準サーバー証明書</a>
+                    <a href="#"><span class="arrow">▶</span>IAMユーザーアクセスキー登録削除申請</a>
+                    <a href="#"><span class="arrow">▶</span>WAFルール切替申請</a>
+                </div>
+                <a href="index_AWS_Manual.html">DL-AWS マニュアル</a>
+                <a href="index_QA.html">QA</a>
+                <h1>運用担当者用ページ</h1>
+                <a href="#" class="toggle-menu menu-title"><span class="arrow">▶</span>お知らせ管理</a>
+                <div class="submenu">
+                    <a href="index_NoticeManagement_Homecloud.html">ホームクラウド</a>
+                    <a href="index_NoticeManagement_AWS.html">DL-AWS</a>
+                </div>
+            </div>
+        </div>
+
+
+
+    <div class="form-container">
+        <form action="home-cloud-f.html" method="GET">
+
+            <div class="form-content">
+                <fieldset>
+                    <legend>申請者情報</legend>
+
+                    <label for="application_date">申請日:</label>
+                    <input type="date" id="application_date" name="application_date" required>
+
+                    <label for="preferredDate">作業希望日:</label>
+                    <input type="date" id="preferredDate" name="preferredDate" required>
+
+                    <label for="application_sum">申請回数:</label>
+                    <select id="application_sum" name="application_sum" required>
+                        <option value="one">初回</option>
+                        <option value="mora_than_two">２回目以降</option>
+                    </select>
+
+                    <label for="company">会社名:</label>
+                    <input type="text" id="company" name="company" required>
+
+                    <label for="department">所属名:</label>
+                    <input type="text" id="department" name="department" required>
+
+                    <label for="RP_name">申請責任者名:</label>
+                    <input type="text" id="RP_name" name="RP_name" required>
+
+                    <label for="RP_email_address">申請責任者連絡先(メールアドレス):</label>
+                    <input type="text" id="RP_email_address" name="RP_email_address" required>
+
+                    <label for="RIC_name">申請担当者名:</label>
+                    <input type="text" id="RIC_name" name="RIC_name" required>
+
+                    <label for="RIC_email_address">申請担当者連絡先(メールアドレス):</label>
+                    <input type="text" id="RIC_email_address" name="RIC_email_address" required>
+
+                    <label for="phone_number">申請担当者電話番号</label>
+                    <input type="text" id="phone_number" name="phone_number" required>
+
+                </fieldset>
+                
+                <fieldset>
+                    <legend>システム情報</legend>
+
+                    <label for="system_name">システム名:</label>
+                    <input type="text" id="system_name" name="system_name" required>
+
+                    <label for="system_summary">システム概要:</label>
+                    <input type="text" id="system_summary" name="system_summary" required>
+
+                    <label for="system_code">システムコード:</label>
+                    <input type="text" id="system_summary" name="system_code" required>
+
+                    <label for="environment">環境:</label>
+                    <select id="environment" name="environment" required>
+                        <option value="ST">ST</option>
+                        <option value="本番">本番</option>
+                    </select>
+
+                    <label for="environment">個人情報データの取り扱い:</label>
+                    <select id="environment" name="environment" required>
+                        <option value="ST">あり</option>
+                        <option value="本番">なし</option>
+                    </select>
+
+                    <label for="environment">機微情報データの取り扱い:</label>
+                    <select id="environment" name="environment" required>
+                        <option value="ST">あり</option>
+                        <option value="本番">なし</option>
+                    </select>
+
+                </fieldset>
+
+                <fieldset>
+                    <legend>詳細情報</legend>
+                    <div id="external-sites-container">
+                        <div class="input-container">
+                            <label for="order">依頼内容:</label>
+                            <select id="order" name="order" required>
+                                <option value="新規作成">新規作成</option>
+                                <option value="追加">追加</option>
+                                <option value="変更">変更</option>
+                                <option value="削除">削除</option>
+                            </select>
+
+                            <label for="order">ドメイン種別:</label>
+                            <select id="domain_type" name="domain_type" required>
+                                <option value="内部非本番">内部向けDNSドメイン(非本番)</option>
+                                <option value="内部本番">内部向けDNSドメイン(本番)</option>
+                                <option value="外部非本番">外部向けDNSドメイン(非本番)</option>
+                                <option value="外部本番">外部向けDNSドメイン(本番)</option>
+                            </select>
+
+                            <label for="fqdn">FQDN:</label>
+                            <input type="text" id="fqdn" name="fqdn" required>
+
+                            <label for="order">レコードタイプ:</label>
+                            <select id="domain_type" name="domain_type" required>
+                                <option value="内部非本番">内部向けDNSドメイン(非本番)</option>
+                                <option value="内部本番">内部向けDNSドメイン(本番)</option>
+                                <option value="外部非本番">外部向けDNSドメイン(非本番)</option>
+                                <option value="外部本番">外部向けDNSドメイン(本番)</option>
+                            </select>
+
+                            <label for="arias">エイリアス:</label>
+                            <select id="arias" name="arias" required>
+                                <option value="use">使用</option>
+                                <option value="unuse">不使用</option>
+                            </select>
+
+                            <label for="endpoint">トラフィックのルーティング先(エンドポイント)※エイリアス使用時のみ記入:</label>
+                            <input type="text" id="endpoint" name="endpoint" required>
+
+                            <label for="region">トラフィックのルーティング先(リージョン)※エイリアス使用時のみ記入:</label>
+                            <input type="text" id="region" name="region" required>
+
+                            <label for="paramater">値:</label>
+                            <input type="text" id="paramater" name="paramater" required>
+
+                            <label for="ttl">TTL(秒):</label>
+                            <input type="text" id="ttl" name="ttl" required>
+
+                        </div>
+                    </div>
+                    <button class="alter" type="button" onclick="addSiteInput()">追加</button>
+                </fieldset>
+            </div>
+            
+            <div class="button-container">
+                <button type="submit">申請</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function addSiteInput() {
+            const container = document.getElementById("external-sites-container");
+            const newInputDiv = document.createElement("div");
+            newInputDiv.classList.add("input-container");
+            
+            const newInput = document.createElement("input");
+            newInput.type = "text";
+            newInput.name = "append";
+            
+            newInputDiv.appendChild(newInput);
+            container.appendChild(newInputDiv);
+        }
+        toggleMenus.forEach(function(menu) {
+            menu.addEventListener('click', function(event) {
+                event.preventDefault();
+                const submenu = this.nextElementSibling;
+                const arrow = this.querySelector('.arrow');
+                
+                if (submenu && submenu.classList.contains('submenu')) {
+                    submenu.classList.toggle('open');
+                    
+                    // 矢印を切り替え
+                    if (submenu.classList.contains('open')) {
+                        arrow.textContent = "▼";
+                    } else {
+                        arrow.textContent = "▶";
+                    }
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

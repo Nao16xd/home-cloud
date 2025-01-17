@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ホームクラウド - ジョブ実行エージェント申請 履歴</title>
+    <style>
+        /* 使うやつ */
+        /* スタイル */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            padding-top: 80px; /* ヘッダーの高さ分の余白を追加 */
+        }
+        header {
+            background: linear-gradient(to right, #140079 70%, #d2d6e8);
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        h1 {
+            color: white;
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .container {
+            margin: 20px;
+            padding-top: 20px; /* 追加余白 */
+        }
+        .filter {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .filter button {
+            padding: 10px;
+            font-size: 16px;
+            margin-right: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .filter button#addFilter {
+            background-color: #3498db;
+            color: white;
+        }
+        .filter button#addFilter:hover {
+            background-color: #2980b9;
+        }
+        .filter button#clearFilters {
+            background-color: #e74c3c;
+            color: white;
+        }
+        .filter button#clearFilters:hover {
+            background-color: #c0392b;
+        }
+        #filterContainer select,
+        #filterContainer input {
+            padding: 10px;
+            font-size: 16px;
+            margin-right: 10px;
+            width: 300px;
+        }
+        .history-table {
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            width: 100%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .history-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .history-table th, .history-table td {
+            padding: 12px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+        .history-table th {
+            background-color: #3498db;
+            color: white;
+        }
+        .back-button {
+            background-color: #3498db;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        .back-button:hover {
+            background-color: #2980b9;
+        }
+        /* 並び替えボタンのスタイル */
+        .sort-button {
+            background-color: #3498db;
+            color: white;
+            padding: 5px 10px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .sort-button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>ホームクラウド - ジョブ実行エージェント申請 履歴</h1>
+    </header>
+
+    <div class="container">
+        <!-- フィルター追加機能 -->
+        <div class="filter">
+            <button id="addFilter" onclick="showFilterDropdown()">＋フィルターを追加</button>
+            <button id="clearFilters" onclick="clearFilters()">クリア</button>
+        </div>
+        <div id="filterContainer"></div>
+
+        <!-- 申請履歴テーブル -->
+        <div class="history-table">
+            <h2>申請履歴</h2>
+            <table id="historyTable">
+                <thead>
+                    <tr>
+                        <th>申請ID</th>
+                        <th>
+                            申請日
+                            <button class="sort-button" onclick="toggleSortOrder()" id="sortIndicator">▲</button>
+                        </th>
+                        <th>申請内容</th>
+                        <th>申請者</th>
+                        <th>承認者</th>
+                        <th>ステータス</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>001</td>
+                        <td>2024-10-20</td>
+                        <td>クラウドサービス利用申請</td>
+                        <td>山田太郎</td>
+                        <td>佐藤花子</td>
+                        <td>承認済み</td>
+                    </tr>
+                    <tr>
+                        <td>002</td>
+                        <td>2024-10-15</td>
+                        <td>データバックアップ申請</td>
+                        <td>鈴木一郎</td>
+                        <td>高橋次郎</td>
+                        <td>処理中</td>
+                    </tr>
+                    <tr>
+                        <td>003</td>
+                        <td>2024-10-10</td>
+                        <td>アクセス権限申請</td>
+                        <td>佐々木光</td>
+                        <td>渡辺裕子</td>
+                        <td>却下</td>
+                    </tr>
+                </tbody>
+            </table>
+            <a href="index.html">
+                <button class="back-button">トップへ戻る</button>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // フィルター追加ボタンを押したときの処理
+        function showFilterDropdown() {
+            const filterContainer = document.getElementById('filterContainer');
+
+            if (document.getElementById('filterTypeSelect')) return;
+
+            const filterTypeSelect = document.createElement('select');
+            filterTypeSelect.id = "filterTypeSelect";
+            filterTypeSelect.innerHTML = `
+                <option value="">フィルターの種類を選択</option>
+                <option value="承認者">承認者</option>
+                <option value="申請者">申請者</option>
+                <option value="ステータス">ステータス</option>
+            `;
+            filterTypeSelect.onchange = () => handleFilterTypeChange(filterTypeSelect.value);
+
+            filterContainer.appendChild(filterTypeSelect);
+        }
+
+        function handleFilterTypeChange(filterType) {
+            const filterContainer = document.getElementById('filterContainer');
+            const existingInput = document.getElementById('filterInput');
+            if (existingInput) existingInput.remove();
+
+            const existingButton = document.getElementById('applyFilterButton');
+            if (existingButton) existingButton.remove();
+
+            if (!filterType) return;
+
+            const filterInput = document.createElement('input');
+            filterInput.type = 'text';
+            filterInput.id = 'filterInput';
+            filterInput.placeholder = `${filterType}を入力`;
+
+            const applyButton = document.createElement('button');
+            applyButton.id = 'applyFilterButton';
+            applyButton.textContent = '適用';
+            applyButton.onclick = () => applyFilter(filterType, filterInput.value);
+
+            filterContainer.appendChild(filterInput);
+            filterContainer.appendChild(applyButton);
+        }
+
+        function applyFilter(filterType, value) {
+            const rows = document.querySelectorAll('#historyTable tbody tr');
+            rows.forEach(row => {
+                const cells = row.children;
+                let columnIndex;
+
+                switch (filterType) {
+                    case '承認者': columnIndex = 4; break;
+                    case '申請者': columnIndex = 3; break;
+                    case 'ステータス': columnIndex = 5; break;
+                    default: return;
+                }
+
+                const cellValue = cells[columnIndex].textContent || cells[columnIndex].innerText;
+                row.style.display = cellValue.includes(value) ? '' : 'none';
+            });
+        }
+
+        function clearFilters() {
+            const rows = document.querySelectorAll('#historyTable tbody tr');
+            rows.forEach(row => row.style.display = '');
+
+            const filterContainer = document.getElementById('filterContainer');
+            filterContainer.innerHTML = '';
+        }
+
+        let sortOrderAsc = true;
+        function toggleSortOrder() {
+            const rows = Array.from(document.querySelectorAll('#historyTable tbody tr'));
+            rows.sort((a, b) => {
+                const dateA = new Date(a.children[1].textContent.trim());
+                const dateB = new Date(b.children[1].textContent.trim());
+
+                return sortOrderAsc ? dateA - dateB : dateB - dateA;
+            });
+
+            const tbody = document.querySelector('#historyTable tbody');
+            tbody.innerHTML = '';
+            rows.forEach(row => tbody.appendChild(row));
+
+            sortOrderAsc = !sortOrderAsc;
+            document.getElementById('sortIndicator').textContent = sortOrderAsc ? '▲' : '▼';
+        }
+    </script>
+</body>
+</html>

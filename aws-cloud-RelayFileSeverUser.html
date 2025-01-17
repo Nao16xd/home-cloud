@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中継用ファイルサーバーユーザー登録・削除申請</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9fc;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(to right, #140079 70%, #d2d6e8);
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .form-container {
+            max-width: 1000px;
+            margin: 120px auto 40px;
+            padding: 20px;
+            background-color: #fae9d1;
+            border-radius: 10px;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-content {
+            display: flex;
+            gap: 20px;
+        }
+
+        .form-container:hover {
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        fieldset {
+            flex: 1;
+            padding: 10px; /* フィールドセットのパディングを減らす */
+            border: 1px solid #d1d1d1;
+            border-radius: 8px;
+        }
+
+        legend {
+            font-weight: bold;
+            color: #e29b4a;
+            padding: 0 5px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 4px; /* ラベル下の隙間を狭く */
+            font-size: 15px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        input, select, textarea {
+            width: calc(100% - 10px); /* 入力フィールドの横幅を調整 */
+            padding: 8px; /* 入力フィールドのパディングを減らす */
+            margin-bottom: 10px; /* 入力フィールド下の隙間を狭く */
+            border: 1px solid #d1d1d1;
+            border-radius: 6px;
+            font-size: 15px;
+            background-color: #fafafa;
+            box-sizing: border-box;
+            transition: border 0.3s, background-color 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #4a90e2;
+            background-color: #f0f8ff;
+        }
+
+        .button-container {
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        button {
+            width: 30%;
+            padding: 12px; /* ボタンのパディングを調整 */
+            background-color: #e29b4a;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #a06c31;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>DL AWS - 中継用ファイルサーバーユーザー登録・削除申請</h1>
+    </header>
+
+    <div class="form-container">
+        <form action="home-cloud-f.html" method="GET">
+            <div class="form-content">
+                <fieldset>
+                    <legend>申請者情報</legend>
+                    <label for="employeeId">社員番号:</label>
+                    <input type="text" id="employeeId" name="employeeId" required>
+
+                    <label for="name">氏名:</label>
+                    <input type="text" id="name" name="name" required>
+
+                    <label for="department">所属:</label>
+                    <input type="text" id="department" name="department" required>
+
+                    <label for="extension">内線:</label>
+                    <input type="text" id="extension" name="extension" required>
+                </fieldset>
+                
+                <fieldset>
+                    <legend>申請内容</legend>
+
+                    <label for="environment">環境:</label>
+                    <select id="environment" name="environment" required>
+                        <option value="ST">ST</option>
+                        <option value="本番">本番</option>
+                    </select>
+
+                    <label for="preferredDate">作業希望日:</label>
+                    <input type="date" id="preferredDate" name="preferredDate" required>
+
+                    <label for="reason">申請理由:</label>
+                    <textarea id="reason" name="reason" rows="3" required></textarea>
+                </fieldset>
+            </div>
+            
+            <div class="button-container">
+                <button type="submit">申請</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

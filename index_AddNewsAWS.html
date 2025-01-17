@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>お知らせ追加 - DL-AWS</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    header {
+      background: linear-gradient(to right, #140079 70%, #d2d6e8);
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+
+    main {
+      padding: 20px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button.add-button {
+      background-color: #5096c9;
+      color: white;
+    }
+
+    button.cancel-button {
+      background-color: #d9081e;
+      color: white;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    footer {
+      background-color: #f1f1f1;
+      text-align: center;
+      padding: 10px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>お知らせ追加</h1>
+  </header>
+
+  <main>
+    <form id="addNewsForm">
+      <label for="newsTitle">タイトル</label>
+      <input type="text" id="newsTitle" name="newsTitle" required>
+
+      <label for="newsContent">内容</label>
+      <textarea id="newsContent" name="newsContent" rows="5" required></textarea>
+
+      <div style="display: flex; gap: 10px;">
+        <button type="submit" class="add-button">追加</button>
+        <button type="button" class="cancel-button" onclick="window.location.href='index_NoticeManagement_AWS.html';">キャンセル</button>
+      </div>
+    </form>
+  </main>
+
+  <footer>
+    <p>&copy; お知らせ管理システム</p>
+  </footer>
+
+  <script>
+    document.getElementById('addNewsForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // フォーム送信を防止
+
+      const title = document.getElementById('newsTitle').value;
+      const content = document.getElementById('newsContent').value;
+
+      alert('お知らせ追加: ' + title + ' - ' + content);
+      // 実際の保存処理はここに追加
+      window.location.href = 'index_NoticeManagement_AWS.html'; // 追加後、一覧画面に戻る
+    });
+  </script>
+</body>
+</html>
