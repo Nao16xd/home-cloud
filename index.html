@@ -278,7 +278,7 @@ color: #5096c9;
 <!-- お知らせ サイドバー -->
 <div class="central-sidebar" style="left: 350px; width: 400px;">
     <div class="sidebar-title">ホームクラウドお知らせ</div>
-    <div class="notice-section">
+    <div class="notice-section" id="noticeSection">
         
     </div>
 </div>
@@ -315,34 +315,31 @@ color: #5096c9;
             });
         });
     });
-    function fetchNotices() {
-        axios.get('https://m3h-watanabe-homecloud.azurewebsites.net/api/get-latest-announcements')  // APIエンドポイントを指定
-            .then(function(response) {
-                // 成功した場合、データをお知らせセクションに表示
-                const notices = response.data;
-                const noticeSection = document.querySelector('.central-sidebar .notice-section');
-                noticeSection.innerHTML = ''; // 現在のお知らせをクリア
-
-                // お知らせが存在する場合、リストを作成
-                notices.forEach(notice => {
-                    const noticeItem = document.createElement('div');
-                    noticeItem.classList.add('notice-item');
-                    noticeItem.innerHTML = `
-                        <span class="notice-date">${notice.date}</span>
-                        <a href="#">${notice.title}</a>
-                    `;
-                    noticeSection.appendChild(noticeItem);
-                });
-            })
-            .catch(function(error) {
-                console.error('お知らせの取得に失敗しました:', error);
+    axios.get('https://m3h-watanabe-homecloud.azurewebsites.net/api/get-latest-announcements')
+    .then(response => {
+        // 取得したお知らせデータをHTMLに挿入
+        const notices = response.data;
+        const noticeSection = document.getElementById('noticeSection');
+        
+        // データが存在する場合、リストを作成
+        if (notices && notices.length > 0) {
+            notices.forEach(notice => {
+                const noticeElement = document.createElement('div');
+                noticeElement.classList.add('notice-item');
+                noticeElement.innerHTML = `
+                    <h4>${notice.title}</h4>
+                    <p>${notice.content}</p>
+                `;
+                noticeSection.appendChild(noticeElement);
             });
-    }
-
-    // ページが読み込まれた際にお知らせを取得
-    window.onload = function() {
-        fetchNotices();
-    };
+        } else {
+            noticeSection.innerHTML = '<p>お知らせはありません。</p>';
+        }
+    })
+    .catch(error => {
+        console.error('お知らせの取得に失敗しました:', error);
+        document.getElementById('noticeSection').innerHTML = '<p>お知らせの取得に失敗しました。</p>';
+    });
 </script>
 
 
