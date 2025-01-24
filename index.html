@@ -315,22 +315,22 @@ color: #5096c9;
             });
         });
     });
-    axios.get('m3h-watanabe-homecloud.azurewebsites.net/api/get-latest-announcements')
-  .then(response => {
-    // お知らせデータを取得した場合
-    const notices = response.data; // 必要なデータを取得
-    let noticeHTML = '';
-    notices.forEach(notice => {
-      noticeHTML += `<div class="notice-item">
-                       <span class="notice-date">${notice.date}</span>
-                       <a href="#">${notice.title}</a>
-                      </div>`;
+    // 例: Axiosを使ったAPIリクエスト
+axios.get('m3h-watanabe-homecloud.azurewebsites.net/api/get-latest-announcements')
+    .then(function (response) {
+        const announcements = response.data;
+        const noticeSection = document.getElementById('noticeSection');
+        announcements.forEach(function (announcement) {
+            const noticeItem = document.createElement('div');
+            noticeItem.classList.add('notice-item');
+            noticeItem.textContent = announcement.message; // お知らせメッセージを表示
+            noticeSection.appendChild(noticeItem);
+        });
+    })
+    .catch(function (error) {
+        console.error('お知らせの取得に失敗しました:', error);
     });
-    document.getElementById('noticeSection').innerHTML = noticeHTML;
-  })
-  .catch(error => {
-    console.error('お知らせの取得に失敗しました:', error);
-  });
+
 </script>
 
 
