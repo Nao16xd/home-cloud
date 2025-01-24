@@ -339,6 +339,28 @@ color: #5096c9;
 
     // ページ読み込み時にお知らせを表示
     displayAnnouncements();
+    const displayAnnouncements = async () => {
+  try {
+    // APIからデータを取得
+    const response = await fetch("https://m3h-hasegawa-recreation3.azurewebsites.net/api/GetAllStock");
+
+    // JSON形式でデータをパース
+    const data = await response.json();
+
+    // dataが配列かどうか確認
+    if (Array.isArray(data)) {
+      // 配列だった場合のみforEachを使う
+      data.forEach(item => {
+        console.log(item);  // 各アイテムを表示
+        // ここでアイテムを画面に表示する処理を追加
+      });
+    } else {
+      console.error("APIから返ってきたデータは配列ではありません:", data);
+    }
+  } catch (error) {
+    console.error("APIリクエストに失敗しました:", error);
+  }
+};
 </script>
 </body>
 </html>
