@@ -319,27 +319,33 @@ color: #5096c9;
             });
         });
     });
-    document.addEventListener('DOMContentLoaded', function () {
-    // 例: Axiosを使ったAPIリクエスト
-    axios.get('https://m3h-watanabe-homecloud.azurewebsites.net/api/GetLatestAnnouncements')  // APIのURLをここに入れる
-    .then(function (response) {
-        // APIからのデータが成功した場合の処理
-        var noticeData = response.data;  // APIレスポンスのデータ
+    function fetchNotice() {
+        // サンプルAPIURL（実際のAPI URLに変更してください）
+        const apiUrl = "https://example.com/api/getNotice"; // 実際のAPI URLに変更
 
-        // 日付とタイトルを取得して表示
-        var noticeItem = document.getElementById('.noticeitem');
-        var noticeDate = noticeItem.querySelector('.notice-date');
-        var noticeTitle = noticeItem.querySelector('.notice-title');
+        // Axiosを使用してAPIからデータを取得
+        axios.get(apiUrl)
+            .then(function(response) {
+                // 取得したデータを使ってお知らせを表示
+                const noticeData = response.data; // 例: { date: "2024/10/30", message: "緊急メンテナンスのお知らせ..." }
+                const noticeItem = document.getElementById("noticeitem");
 
-        // APIレスポンスを使って内容を埋め込む
-        noticeDate.textContent = noticeData.date;  // 日付を挿入
-        noticeTitle.textContent = noticeData.title;  // タイトルを挿入
-        noticeTitle.href = noticeData.link;  // タイトルリンクを設定（必要に応じて）
-    })
-    .catch(function (error) {
-        console.error('APIの呼び出しに失敗しました: ', error);
-    });
-});
+                // 日付とメッセージを挿入
+                const noticeDate = noticeItem.querySelector(".notice-date");
+                const noticeLink = noticeItem.querySelector("a");
+
+                // お知らせデータがある場合、表示を更新
+                if (noticeData && noticeData.date && noticeData.message) {
+                    noticeDate.textContent = noticeData.date; // 日付
+                    noticeLink.textContent = noticeData.message; // メッセージ
+                    noticeLink.href = noticeData.link || "#"; // リンク（あれば）
+                }
+            })
+            .catch(function(error) {
+                console.error("お知らせの取得に失敗しました:", error);
+            });
+    }
+    window.onload = fetchNotice;
 
 </script>
 
