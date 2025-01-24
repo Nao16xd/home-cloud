@@ -315,7 +315,7 @@ color: #5096c9;
             });
         });
     });
-    axios.get('API_URL')
+    axios.get('m3h-watanabe-homecloud.azurewebsites.net/api/get-latest-announcements')
   .then(response => {
     // お知らせデータを取得した場合
     const notices = response.data; // 必要なデータを取得
