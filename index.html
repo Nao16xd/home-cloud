@@ -327,9 +327,9 @@ color: #5096c9;
         var noticeData = response.data;  // APIレスポンスのデータ
 
         // 日付とタイトルを取得して表示
-        var noticeItem = document.getElementById('noticeitem');
+        var noticeItem = document.getElementById('.noticeitem');
         var noticeDate = noticeItem.querySelector('.notice-date');
-        var noticeTitle = noticeItem.querySelector('#notice-title');
+        var noticeTitle = noticeItem.querySelector('.notice-title');
 
         // APIレスポンスを使って内容を埋め込む
         noticeDate.textContent = noticeData.date;  // 日付を挿入
