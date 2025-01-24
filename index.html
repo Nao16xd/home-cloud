@@ -268,9 +268,7 @@ color: #5096c9;
 <!-- お知らせ サイドバー -->
 <div class="central-sidebar" style="left: 350px; width: 400px;">
     <div class="sidebar-title">ホームクラウドお知らせ</div>
-    <div class="notice-section" id="announcement-container">
-        
-    </div>
+    <div id="announcement-container"></div>
 </div>
 <!-- DL-AWS サイドバー -->
 <div class="aws-sidebar-wrapper">
@@ -303,31 +301,35 @@ color: #5096c9;
             });
         });
     });
-    axios
-  .get("https://m3h-watanabe-homecloud.azurewebsites.net/api/GetLatestAnnouncements")
-  .then((response) => {
-    const announcements = response.data; // レスポンスデータを取得
+    document.addEventListener("DOMContentLoaded", () => {
+        const announcementContainer = document.getElementById("announcement-container");
 
-    // HTML要素を取得（エラー原因の修正ポイント）
-    const noticesection = document.getElementById("announcement-container");
+        // APIエンドポイントのURL
+        const apiUrl = "https://m3h-watanabe-homecloud.azurewebsites.net/api/GetLatestAnnouncements";
 
-    // HTML要素を初期化
-    noticesection.innerHTML = "";
-
-    // データをループしてHTMLに挿入
-    announcements.forEach((announcement) => {
-      const div = document.createElement("div");
-      div.innerHTML = `
-        <h3>${announcement.Announcement_title}</h3>
-        <p>${announcement.Announcement_date}</p>
-        <p>${announcement.Announcement_content}</p>
-      `;
-      noticesection.appendChild(div); // 要素を追加
+        // APIからお知らせを取得
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                // お知らせをHTMLに変換して挿入
+                if (data.length > 0) {
+                    announcementContainer.innerHTML = data.map(announcement => `
+                        <div class="announcement">
+                            <h3>${announcement.title}</h3>
+                            <div class="date">${new Date(announcement.date).toLocaleDateString('ja-JP', {
+                                year: 'numeric', month: 'long', day: 'numeric'
+                            })}</div>
+                        </div>
+                    `).join('');
+                } else {
+                    announcementContainer.innerHTML = "現在お知らせはありません。";
+                }
+            })
+            .catch(error => {
+                console.error("お知らせの取得に失敗しました:", error);
+                announcementContainer.innerHTML = "お知らせの取得に失敗しました。";
+            });
     });
-  })
-  .catch((error) => {
-    console.error("お知らせの取得に失敗しました:", error); // エラーのログを出力
-  });
 </script>
 </body>
 </html>
