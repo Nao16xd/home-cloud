@@ -315,31 +315,22 @@ color: #5096c9;
             });
         });
     });
-    axios.get('https://m3h-watanabe-homecloud.azurewebsites.net/api/get-latest-announcements')
-    .then(response => {
-        // 取得したお知らせデータをHTMLに挿入
-        const notices = response.data;
-        const noticeSection = document.getElementById('noticeSection');
-        
-        // データが存在する場合、リストを作成
-        if (notices && notices.length > 0) {
-            notices.forEach(notice => {
-                const noticeElement = document.createElement('div');
-                noticeElement.classList.add('notice-item');
-                noticeElement.innerHTML = `
-                    <h4>${notice.title}</h4>
-                    <p>${notice.content}</p>
-                `;
-                noticeSection.appendChild(noticeElement);
-            });
-        } else {
-            noticeSection.innerHTML = '<p>お知らせはありません。</p>';
-        }
-    })
-    .catch(error => {
-        console.error('お知らせの取得に失敗しました:', error);
-        document.getElementById('noticeSection').innerHTML = '<p>お知らせの取得に失敗しました。</p>';
+    axios.get('API_URL')
+  .then(response => {
+    // お知らせデータを取得した場合
+    const notices = response.data; // 必要なデータを取得
+    let noticeHTML = '';
+    notices.forEach(notice => {
+      noticeHTML += `<div class="notice-item">
+                       <span class="notice-date">${notice.date}</span>
+                       <a href="#">${notice.title}</a>
+                      </div>`;
     });
+    document.getElementById('noticeSection').innerHTML = noticeHTML;
+  })
+  .catch(error => {
+    console.error('お知らせの取得に失敗しました:', error);
+  });
 </script>
 
 
