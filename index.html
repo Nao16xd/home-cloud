@@ -278,9 +278,7 @@ color: #5096c9;
 <div class="central-sidebar" style="left: 350px; width: 400px;">
     <div class="sidebar-title">ホームクラウドお知らせ</div>
     <div class="notice-section">
-        <div class="notice-item"><span class="notice-date">2024/10/28</span><a href="#">システムメンテナンスのお知らせ。</a></div>
-        <div class="notice-item"><span class="notice-date">2024/10/27</span><a href="#">新しいバックアップ機能について。</a></div>
-        <div class="notice-item"><span class="notice-date">2024/10/25</span><a href="#">利用規約変更のお知らせ。</a></div>
+        
     </div>
 </div>
 
@@ -316,6 +314,14 @@ color: #5096c9;
             });
         });
     });
+    fetch('https://m3h-watanabe-homecloud.azurewebsites.net/api/get-latest-announcements')
+   .then(response => response.json())
+   .then(data => {
+      // お知らせ情報を表示
+      document.getElementById('notice-section').innerHTML = data.message;
+   })
+   .catch(error => console.error('Error fetching data:', error));
+
 </script>
 
 
