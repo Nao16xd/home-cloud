@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>クラウドポータル</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <style>
         /* 使うやつ */
         body {
@@ -314,14 +315,34 @@ color: #5096c9;
             });
         });
     });
-    fetch('https://m3h-watanabe-homecloud.azurewebsites.net/api/get-latest-announcements')
-   .then(response => response.json())
-   .then(data => {
-      // お知らせ情報を表示
-      document.getElementById('notice-section').innerHTML = data.message;
-   })
-   .catch(error => console.error('Error fetching data:', error));
+    function fetchNotices() {
+        axios.get('https://m3h-watanabe-homecloud.azurewebsites.net/api/getNotices')  // APIエンドポイントを指定
+            .then(function(response) {
+                // 成功した場合、データをお知らせセクションに表示
+                const notices = response.data;
+                const noticeSection = document.querySelector('.central-sidebar .notice-section');
+                noticeSection.innerHTML = ''; // 現在のお知らせをクリア
 
+                // お知らせが存在する場合、リストを作成
+                notices.forEach(notice => {
+                    const noticeItem = document.createElement('div');
+                    noticeItem.classList.add('notice-item');
+                    noticeItem.innerHTML = `
+                        <span class="notice-date">${notice.date}</span>
+                        <a href="#">${notice.title}</a>
+                    `;
+                    noticeSection.appendChild(noticeItem);
+                });
+            })
+            .catch(function(error) {
+                console.error('お知らせの取得に失敗しました:', error);
+            });
+    }
+
+    // ページが読み込まれた際にお知らせを取得
+    window.onload = function() {
+        fetchNotices();
+    };
 </script>
 
 
