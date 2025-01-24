@@ -322,7 +322,7 @@ axios.get('https://m3h-watanabe-homecloud.azurewebsites.net/api/GetLatestAnnounc
         const noticeSection = document.getElementById('noticeSection');
         announcements.forEach(function (announcement) {
             const noticeItem = document.createElement('div');
-            noticeItem.classList.add('notice-item');
+            noticeItem.classList.add('notice-section');
             noticeItem.textContent = announcement.message; // お知らせメッセージを表示
             noticeSection.appendChild(noticeItem);
         });
