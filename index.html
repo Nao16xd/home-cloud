@@ -281,8 +281,8 @@ color: #5096c9;
 <!-- お知らせ サイドバー -->
 <div class="central-sidebar" style="left: 350px; width: 400px;">
     <div class="sidebar-title">ホームクラウドお知らせ</div>
-    <div class="notice-section" id="noticeSection">
-        <div class="notice-item"><span class="notice-date"></span><a href="#"></a></div>
+    <div class="notice-section">
+        <div class="notice-item" id="noticeitem"><span class="notice-date"></span><a href="#"></a></div>
     </div>
     </div>
 </div>
@@ -327,7 +327,7 @@ color: #5096c9;
 axios.get('https://m3h-watanabe-homecloud.azurewebsites.net/api/GetLatestAnnouncements')
     .then(function (response) {
         const announcements = response.data;
-        const noticeSection = document.getElementById('noticeSection');
+        const noticeSection = document.getElementById('noticeitem');
         announcements.forEach(function (announcement) {
             const noticeItem = document.createElement('div');
             noticeItem.classList.add('notice-item');
