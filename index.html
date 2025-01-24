@@ -324,21 +324,25 @@ color: #5096c9;
             noticeSection.innerHTML = ''; // 初期メッセージを消去
 
     // 例: Axiosを使ったAPIリクエスト
-axios.get('https://m3h-watanabe-homecloud.azurewebsites.net/api/GetLatestAnnouncements')
+    axios.get('https://m3h-watanabe-homecloud.azurewebsites.net/api/GetLatestAnnouncements')  // APIのURLをここに入れる
     .then(function (response) {
-        const announcements = response.data;
-        const noticeSection = document.getElementById('noticeitem');
-        announcements.forEach(function (announcement) {
-            const noticeItem = document.createElement('div');
-            noticeItem.classList.add('notice-item');
-            noticeItem.textContent = announcement.message; // お知らせメッセージを表示
-            noticeSection.appendChild(noticeItem);
-        });
+        // APIからのデータが成功した場合の処理
+        var noticeData = response.data;  // APIレスポンスのデータ
+
+        // 日付とタイトルを取得して表示
+        var noticeItem = document.getElementById('noticeitem');
+        var noticeDate = noticeItem.querySelector('.notice-date');
+        var noticeTitle = noticeItem.querySelector('#notice-title');
+
+        // APIレスポンスを使って内容を埋め込む
+        noticeDate.textContent = noticeData.date;  // 日付を挿入
+        noticeTitle.textContent = noticeData.title;  // タイトルを挿入
+        noticeTitle.href = noticeData.link;  // タイトルリンクを設定（必要に応じて）
     })
     .catch(function (error) {
-        console.error('お知らせの取得に失敗しました:', error);
-    })
-    };
+        console.error('APIの呼び出しに失敗しました: ', error);
+    });
+}
 
 </script>
 
