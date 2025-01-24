@@ -303,39 +303,31 @@ color: #5096c9;
             });
         });
     });
-    function fetchAnnouncements() {
-        axios.get('https://m3h-watanabe-homecloud.azurewebsites.net/api/GetLatestAnnouncements') // axiosでAPIのエンドポイントを指定
-            .then(response => {
-                const data = response.data; // APIから返ってきたデータ
-                const noticeSection = document.getElementById('notice-section');
-                
-                data.forEach(announcement => {
-                    const noticeItem = document.createElement('div');
-                    noticeItem.classList.add('notice-item');
-                    
-                    // 日付とタイトルを設定
-                    const dateElement = document.createElement('span');
-                    dateElement.classList.add('notice-date');
-                    dateElement.textContent = announcement.Announcement_date; // APIから取得した日付
-                    
-                    const titleElement = document.createElement('a');
-                    titleElement.href = '#'; // 必要に応じてリンクを設定
-                    titleElement.textContent = announcement.Announcement_title; // APIから取得したタイトル
+    axios
+  .get("https://m3h-watanabe-homecloud.azurewebsites.net/api/GetLatestAnnouncements")
+  .then((response) => {
+    const announcements = response.data; // レスポンスデータを取得
 
-                    noticeItem.appendChild(dateElement);
-                    noticeItem.appendChild(titleElement);
-                    
-                    // 新しいお知らせをセクションに追加
-                    noticeSection.appendChild(noticesection);
-                });
-            })
-            .catch(error => {
-                console.error('お知らせの取得に失敗しました:', error);
-            });
-    }
+    // HTML要素を取得（エラー原因の修正ポイント）
+    const noticesection = document.getElementById("announcement-container");
 
-    // ページが読み込まれた後にAPIを呼び出してお知らせを表示
-    window.onload = fetchAnnouncements;
+    // HTML要素を初期化
+    noticesection.innerHTML = "";
+
+    // データをループしてHTMLに挿入
+    announcements.forEach((announcement) => {
+      const div = document.createElement("div");
+      div.innerHTML = `
+        <h3>${announcement.Announcement_title}</h3>
+        <p>${announcement.Announcement_date}</p>
+        <p>${announcement.Announcement_content}</p>
+      `;
+      noticesection.appendChild(div); // 要素を追加
+    });
+  })
+  .catch((error) => {
+    console.error("お知らせの取得に失敗しました:", error); // エラーのログを出力
+  });
 </script>
 </body>
 </html>
