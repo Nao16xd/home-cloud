@@ -320,7 +320,7 @@ color: #5096c9;
     const announcementContainer = document.getElementById("announcement-container");
 
     // お知らせを表示する関数
-    async function displayAnnouncements() {
+    async function displayStockAnnouncements() {
         const announcements = await fetchAnnouncements();
         announcements.forEach(function(announcement) {
             const noticeItem = document.createElement("div");
