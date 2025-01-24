@@ -187,30 +187,31 @@
 color: #5096c9;
 }
 .announcement {
-    display: flex;            /* 横並びにするために flexbox を使用 */
-    justify-content: space-between; /* 左右の要素に余白を自動で調整 */
-    align-items: center;      /* 垂直方向に中央揃え */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 3px 0;
     border-bottom: 1px solid #ccc;
     background-color: #d2d6e8;
-}
-
-.date {
-    font-size: 12px;
-    color: black;
-    margin-left: 10px;        /* 左側の余白 */
-    white-space: nowrap;      /* 改行させない */
 }
 
 .announcement h3 {
     color: #5096c9;
     text-decoration: none;
     font-size: 14px;
-    margin: 0;                /* 不要なマージンを削除 */
+    margin: 0;
     word-wrap: break-word;
-    white-space: nowrap;      /* 改行させない */
+    white-space: nowrap;
+    order: 2; /* 右側に配置 */
 }
 
+.date {
+    font-size: 12px;
+    color: black;
+    margin-left: 10px;
+    white-space: nowrap;
+    order: 1; /* 左側に配置 */
+}
 
 
     </style>
