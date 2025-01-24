@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>クラウドポータル</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <style>
         /* 使うやつ */
         body {
@@ -267,7 +268,8 @@ color: #5096c9;
 <!-- お知らせ サイドバー -->
 <div class="central-sidebar" style="left: 350px; width: 400px;">
     <div class="sidebar-title">ホームクラウドお知らせ</div>
-    <div class="notice-section" id="announcement-container">
+    <div class="notice-section" id="notice-section">
+        
     </div>
 </div>
 <!-- DL-AWS サイドバー -->
@@ -301,66 +303,39 @@ color: #5096c9;
             });
         });
     });
-    async function fetchAnnouncements() {
-        try {
-            // ここにAPIのURLを指定
-            const response = await fetch("https://m3h-watanabe-homecloud.azurewebsites.net/api/GetLatestAnnouncements");
-            if (!response.ok) {
-                throw new Error('ネットワークエラー');
-            }
-            const data = await response.json();
-            return data.announcements; // APIレスポンスに基づいてデータを返す
-        } catch (error) {
-            console.error('お知らせを取得できませんでした:', error);
-            return [];
-        }
+    function fetchAnnouncements() {
+        axios.get('m3h-watanabe-homecloud.azurewebsites.net/api/GetLatestAnnouncements') // axiosでAPIのエンドポイントを指定
+            .then(response => {
+                const data = response.data; // APIから返ってきたデータ
+                const noticeSection = document.getElementById('notice-section');
+                
+                data.forEach(announcement => {
+                    const noticeItem = document.createElement('div');
+                    noticeItem.classList.add('notice-item');
+                    
+                    // 日付とタイトルを設定
+                    const dateElement = document.createElement('span');
+                    dateElement.classList.add('notice-date');
+                    dateElement.textContent = announcement.Announcement_date; // APIから取得した日付
+                    
+                    const titleElement = document.createElement('a');
+                    titleElement.href = '#'; // 必要に応じてリンクを設定
+                    titleElement.textContent = announcement.Announcement_title; // APIから取得したタイトル
+
+                    noticeItem.appendChild(dateElement);
+                    noticeItem.appendChild(titleElement);
+                    
+                    // 新しいお知らせをセクションに追加
+                    noticeSection.appendChild(noticeItem);
+                });
+            })
+            .catch(error => {
+                console.error('お知らせの取得に失敗しました:', error);
+            });
     }
 
-    // お知らせの表示部分を取得
-    const announcementContainer = document.getElementById("announcement-container");
-
-    // お知らせを表示する関数
-    async function displayStockAnnouncements() {
-        const announcements = await fetchAnnouncements();
-        announcements.forEach(function(announcement) {
-            const noticeItem = document.createElement("div");
-            noticeItem.classList.add("notice-item");
-
-            // 日付とタイトルの表示
-            noticeItem.innerHTML = `
-                <span class="notice-date">${announcement.date}</span>
-                <a href="#">${announcement.title}</a>
-            `;
-
-            // 表示領域に追加
-            announcementContainer.appendChild(noticeItem);
-        });
-    }
-
-    // ページ読み込み時にお知らせを表示
-    displayAnnouncements();
-    const displayAnnouncements = async () => {
-  try {
-    // APIからデータを取得
-    const response = await fetch("https://m3h-hasegawa-recreation3.azurewebsites.net/api/GetAllStock");
-
-    // JSON形式でデータをパース
-    const data = await response.json();
-
-    // dataが配列かどうか確認
-    if (Array.isArray(data)) {
-      // 配列だった場合のみforEachを使う
-      data.forEach(item => {
-        console.log(item);  // 各アイテムを表示
-        // ここでアイテムを画面に表示する処理を追加
-      });
-    } else {
-      console.error("APIから返ってきたデータは配列ではありません:", data);
-    }
-  } catch (error) {
-    console.error("APIリクエストに失敗しました:", error);
-  }
-};
+    // ページが読み込まれた後にAPIを呼び出してお知らせを表示
+    window.onload = fetchAnnouncements;
 </script>
 </body>
 </html>
