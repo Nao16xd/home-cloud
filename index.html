@@ -303,10 +303,8 @@ color: #5096c9;
 <!-- DL-AWS サイドバー -->
 <div class="aws-sidebar-wrapper">
     <div class="sidebar-title">DL-AWS お知らせ</div>
-    <div class="notice-section">
-        <div class="notice-item"><span class="notice-date">2024/10/28</span><a href="#">システムメンテナンスのお知らせ。</a></div>
-        <div class="notice-item"><span class="notice-date">2024/10/26</span><a href="#">DL-AWS新機能リリース。</a></div>
-        <div class="notice-item"><span class="notice-date">2024/10/24</span><a href="#">使用方法に関する変更のお知らせ。</a></div>
+    <div class="notice-section" id="notice-section">
+        
     </div>
 </div>
 <script>
@@ -360,6 +358,44 @@ color: #5096c9;
                 announcementContainer.innerHTML = "お知らせの取得に失敗しました。";
             });
     });
+    async function fetchNotices() {
+        try {
+            // APIエンドポイントを指定
+            const response = await axios.get('https://m3h-watanabe-homecloud.azurewebsites.net/api/GetLatestAnnouncementsaws'); // 適切なURLに置き換えてください
+            const notices = response.data;
+
+            // `notice-section`を取得
+            const noticeSection = document.getElementById('notice-section');
+
+            // データをループしてHTMLに追加
+            notices.forEach(notice => {
+                const noticeItem = document.createElement('div');
+                noticeItem.className = 'notice-item';
+
+                // 日付表示
+                const dateSpan = document.createElement('span');
+                dateSpan.className = 'notice-date';
+                dateSpan.textContent = notice.date; // データのプロパティ名に合わせて修正
+
+                // 内容リンク
+                const noticeLink = document.createElement('a');
+                noticeLink.href = notice.link || '#'; // リンクが存在しない場合は「#」を設定
+                noticeLink.textContent = notice.title; // データのプロパティ名に合わせて修正
+
+                // アイテムに追加
+                noticeItem.appendChild(dateSpan);
+                noticeItem.appendChild(noticeLink);
+
+                // セクションに追加
+                noticeSection.appendChild(noticeItem);
+            });
+        } catch (error) {
+            console.error('お知らせデータの取得に失敗しました:', error);
+        }
+    }
+
+    // ページ読み込み時に関数を呼び出し
+    fetchNotices();
 </script>
 </body>
 </html>
