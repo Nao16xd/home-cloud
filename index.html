@@ -223,7 +223,8 @@ color: #5096c9;
     <h1>クラウドポータル</h1>
 </header>
 <div class="important-notice">
-    重要なお知らせ: 緊急メンテナンスのため、10月30日の午前1時から午前5時まで全サービスが停止します。
+    重要なお知らせ: <span id="notice-title">読み込み中...</span> 
+    <span id="notice-date"></span>
 </div>
 <!-- ホームクラウド メニュー サイドバー -->
 <div class="sidebar-wrapper">
@@ -387,6 +388,24 @@ color: #5096c9;
                 announcementContainer2.innerHTML = "お知らせの取得に失敗しました。";
             });
     });
+    axios.get('https://https://m3h-watanabe-homecloud.azurewebsites.net/api/GetLatestImportantAnnouncemen')
+        .then(function (response) {
+            // 成功した場合
+            const notice = response.data; // APIから取得したデータ
+            const title = notice.title;   // お知らせタイトル
+            const date = notice.date;     // お知らせの日付
+
+            // 重要なお知らせの表示部分にデータをセット
+            document.getElementById('notice-title').textContent = title;
+            document.getElementById('notice-date').textContent = `(${date})`;
+        })
+        .catch(function (error) {
+            // エラーが発生した場合
+            console.log('APIの取得に失敗しました:', error);
+            document.getElementById('notice-title').textContent = 'お知らせを取得できませんでした。';
+        });
+</script>
+
 </script>
 </body>
 </html>
