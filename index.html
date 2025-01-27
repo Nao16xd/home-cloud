@@ -303,7 +303,7 @@ color: #5096c9;
 <!-- DL-AWS サイドバー -->
 <div class="aws-sidebar-wrapper">
     <div class="sidebar-title">DL-AWS お知らせ</div>
-    <div class="notice-section" id="notice-section">
+    <div id="announcement-container2"></div>
         
     </div>
 </div>
@@ -358,47 +358,35 @@ color: #5096c9;
                 announcementContainer.innerHTML = "お知らせの取得に失敗しました。";
             });
     });
-    async function fetchNotices() {
-        async function fetchNotices() {
-    try {
-        // APIエンドポイントを指定
-        const response = await axios.get('https://m3h-watanabe-homecloud.azurewebsites.net/api/GetLatestAnnouncementsaws'); // 適切なURLに置き換えてください
-        const notices = response.data;
+    document.addEventListener("DOMContentLoaded", () => {
+        const announcementContainer = document.getElementById("announcement-container2");
 
-        // `notice-section`を取得
-        const noticeSection = document.getElementById('notice-section');
+        // APIエンドポイントのURL
+        const apiUrl = "https://m3h-watanabe-homecloud.azurewebsites.net/api/GetLatestAnnouncementsaws";
 
-        // データをループしてHTMLに追加
-        notices.forEach(notice => {
-            const noticeItem = document.createElement('div');
-            noticeItem.className = 'notice-item';
-
-            // 日付表示 (T00:00:00を削除)
-            const formattedDate = notice.date.split('T')[0]; // T00:00:00の前だけ取得
-            const dateSpan = document.createElement('span');
-            dateSpan.className = 'notice-date';
-            dateSpan.textContent = formattedDate;
-
-            // タイトル表示
-            const titleSpan = document.createElement('span');
-            titleSpan.className = 'notice-title';
-            titleSpan.textContent = notice.title;
-
-            // アイテムに追加
-            noticeItem.appendChild(dateSpan);
-            noticeItem.appendChild(titleSpan);
-
-            // セクションに追加
-            noticeSection.appendChild(noticeItem);
-        });
-    } catch (error) {
-        console.error('お知らせデータの取得に失敗しました:', error);
-    }
-}
-}
-
-// ページ読み込み時に関数を呼び出し
-fetchNotices();
+        // APIからお知らせを取得
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                // お知らせをHTMLに変換して挿入
+                if (data.length > 0) {
+                    announcementContainer.innerHTML = data.map(announcement => `
+                        <div class="announcement2">
+                            <h3>${announcement.title}</h3>
+                            <div class="date">${new Date(announcement.date).toLocaleDateString('ja-JP', {
+                                year: 'numeric', month: 'long', day: 'numeric'
+                            })}</div>
+                        </div>
+                    `).join('');
+                } else {
+                    announcementContainer2.innerHTML = "現在お知らせはありません。";
+                }
+            })
+            .catch(error => {
+                console.error("お知らせの取得に失敗しました:", error);
+                announcementContainer2.innerHTML = "お知らせの取得に失敗しました。";
+            });
+    });
 </script>
 </body>
 </html>
