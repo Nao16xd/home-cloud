@@ -359,56 +359,43 @@ color: #5096c9;
             });
     });
     async function fetchNotices() {
-        try {
-            // APIエンドポイントを指定
-            const response = await axios.get('https://m3h-watanabe-homecloud.azurewebsites.net/api/GetLatestAnnouncementsaws'); // 適切なURLに置き換えてください
-            const notices = response.data;
+    try {
+        // APIエンドポイントを指定
+        const response = await axios.get('https://m3h-watanabe-homecloud.azurewebsites.net/api/GetLatestAnnouncementsaws'); // 適切なURLに置き換えてください
+        const notices = response.data;
 
-            // `notice-section`を取得
-            const noticeSection = document.getElementById('notice-section');
+        // `notice-section`を取得
+        const noticeSection = document.getElementById('notice-section');
 
-            // データをループしてHTMLに追加
-            notices.forEach(notice => {
-                const noticeItem = document.createElement('div');
-                noticeItem.className = 'notice-item';
+        // データをループしてHTMLに追加
+        notices.forEach(notice => {
+            const noticeItem = document.createElement('div');
+            noticeItem.className = 'notice-item';
 
-                // 日付表示
-                const dateSpan = document.createElement('span');
-                dateSpan.className = 'notice-date';
-                dateSpan.textContent = notice.date; // データのプロパティ名に合わせて修正
+            // 日付表示
+            const dateSpan = document.createElement('span');
+            dateSpan.className = 'notice-date';
+            dateSpan.textContent = notice.date; // データのプロパティ名に合わせて修正
 
-                // 内容リンク
-                const noticeLink = document.createElement('a');
-                noticeLink.href = notice.link || '#'; // リンクが存在しない場合は「#」を設定
-                noticeLink.textContent = notice.title; // データのプロパティ名に合わせて修正
+            // タイトル表示
+            const titleSpan = document.createElement('span');
+            titleSpan.className = 'notice-title';
+            titleSpan.textContent = notice.title; // データのプロパティ名に合わせて修正
 
-                // アイテムに追加
-                noticeItem.appendChild(dateSpan);
-                noticeItem.appendChild(noticeLink);
+            // アイテムに追加
+            noticeItem.appendChild(dateSpan);
+            noticeItem.appendChild(titleSpan);
 
-                // セクションに追加
-                noticeSection.appendChild(noticeItem);
-            });
-        } catch (error) {
-            console.error('お知らせデータの取得に失敗しました:', error);
-        }
-    }
-
-    // ページ読み込み時に関数を呼び出し
-    fetchNotices();
-    function formatDates() {
-        const dateElements = document.querySelectorAll('.date');
-        dateElements.forEach(element => {
-            const originalDate = element.textContent.trim();
-            if (originalDate.includes('T00:00:00')) {
-                const formattedDate = originalDate.replace('T00:00:00', ''); // 不要な部分を削除
-                element.textContent = formattedDate; // 更新
-            }
+            // セクションに追加
+            noticeSection.appendChild(noticeItem);
         });
+    } catch (error) {
+        console.error('お知らせデータの取得に失敗しました:', error);
     }
+}
 
-    // ページロード時に実行
-    document.addEventListener('DOMContentLoaded', formatDates);
+// ページ読み込み時に関数を呼び出し
+fetchNotices();
 </script>
 </body>
 </html>
