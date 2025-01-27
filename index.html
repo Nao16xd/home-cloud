@@ -388,7 +388,7 @@ color: #5096c9;
                 announcementContainer2.innerHTML = "お知らせの取得に失敗しました。";
             });
     });
-    axios.get('https://https://m3h-watanabe-homecloud.azurewebsites.net/api/GetLatestImportantAnnouncemen')
+    axios.get('https://m3h-watanabe-homecloud.azurewebsites.net/api/GetLatestImportantAnnouncemen')
         .then(function (response) {
             // 成功した場合
             const notice = response.data; // APIから取得したデータ
