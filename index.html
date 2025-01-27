@@ -388,21 +388,28 @@ color: #5096c9;
                 announcementContainer2.innerHTML = "お知らせの取得に失敗しました。";
             });
     });
-    axios.get('https://m3h-watanabe-homecloud.azurewebsites.net/api/GetLatestImportantAnnouncemen')
-        .then(function (response) {
-            // 成功した場合
-            const notice = response.data; // APIから取得したデータ
-            const title = notice.title;   // お知らせタイトル
-            const date = notice.date;     // お知らせの日付
+    function formatDate(dateString) {
+        const date = new Date(dateString); // 日付文字列をDateオブジェクトに変換
+        const month = date.getMonth() + 1; // 月を取得（0から始まるので1を足す）
+        const day = date.getDate(); // 日を取得
+        return `${month}月${day}日`; // フォーマットを「？月？日」に
+    }
 
-            // 重要なお知らせの表示部分にデータをセット
-            document.getElementById('notice-title').textContent = title;
-            document.getElementById('notice-date').textContent = `(${date})`;
+    // APIからお知らせを取得して表示
+    axios.get('https://m3h-watanabe-homecloud.azurewebsites.net/api/GetLatestImportantAnnouncemen') // APIのURLを指定
+        .then(response => {
+            const noticeTitle = response.data.title; // お知らせのタイトルを取得
+            const noticeDate = response.data.date; // お知らせの日付を取得
+
+            // フォーマットした日付を表示
+            const formattedDate = formatDate(noticeDate);
+
+            // HTMLに表示
+            document.getElementById('notice-title').innerText = noticeTitle;
+            document.getElementById('notice-date').innerText = formattedDate;
         })
-        .catch(function (error) {
-            // エラーが発生した場合
-            console.log('APIの取得に失敗しました:', error);
-            document.getElementById('notice-title').textContent = 'お知らせを取得できませんでした。';
+        .catch(error => {
+            console.error('APIの取得に失敗しました:', error);
         });
 </script>
 
