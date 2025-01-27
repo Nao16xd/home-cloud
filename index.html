@@ -359,6 +359,7 @@ color: #5096c9;
             });
     });
     async function fetchNotices() {
+        async function fetchNotices() {
     try {
         // APIエンドポイントを指定
         const response = await axios.get('https://m3h-watanabe-homecloud.azurewebsites.net/api/GetLatestAnnouncementsaws'); // 適切なURLに置き換えてください
@@ -372,15 +373,16 @@ color: #5096c9;
             const noticeItem = document.createElement('div');
             noticeItem.className = 'notice-item';
 
-            // 日付表示
+            // 日付表示 (T00:00:00を削除)
+            const formattedDate = notice.date.split('T')[0]; // T00:00:00の前だけ取得
             const dateSpan = document.createElement('span');
             dateSpan.className = 'notice-date';
-            dateSpan.textContent = notice.date; // データのプロパティ名に合わせて修正
+            dateSpan.textContent = formattedDate;
 
             // タイトル表示
             const titleSpan = document.createElement('span');
             titleSpan.className = 'notice-title';
-            titleSpan.textContent = notice.title; // データのプロパティ名に合わせて修正
+            titleSpan.textContent = notice.title;
 
             // アイテムに追加
             noticeItem.appendChild(dateSpan);
@@ -392,6 +394,7 @@ color: #5096c9;
     } catch (error) {
         console.error('お知らせデータの取得に失敗しました:', error);
     }
+}
 }
 
 // ページ読み込み時に関数を呼び出し
