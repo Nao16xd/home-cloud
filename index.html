@@ -396,6 +396,19 @@ color: #5096c9;
 
     // ページ読み込み時に関数を呼び出し
     fetchNotices();
+    function formatDates() {
+        const dateElements = document.querySelectorAll('.date');
+        dateElements.forEach(element => {
+            const originalDate = element.textContent.trim();
+            if (originalDate.includes('T00:00:00')) {
+                const formattedDate = originalDate.replace('T00:00:00', ''); // 不要な部分を削除
+                element.textContent = formattedDate; // 更新
+            }
+        });
+    }
+
+    // ページロード時に実行
+    document.addEventListener('DOMContentLoaded', formatDates);
 </script>
 </body>
 </html>
