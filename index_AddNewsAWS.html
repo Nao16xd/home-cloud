@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>お知らせ追加 - DL-AWS</title>
+  <title>お知らせ追加 - ホームクラウド</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -35,7 +35,7 @@
       font-weight: bold;
     }
 
-    input[type="text"], textarea {
+    input[type="text"], textarea, input[type="date"] {
       width: 100%;
       padding: 10px;
       margin-top: 5px;
@@ -85,27 +85,53 @@
       <label for="newsContent">内容</label>
       <textarea id="newsContent" name="newsContent" rows="5" required></textarea>
 
+      <label for="deadline">締切日</label>
+      <input type="date" id="deadline" name="deadline" required>
+
       <div style="display: flex; gap: 10px;">
         <button type="submit" class="add-button">追加</button>
         <button type="button" class="cancel-button" onclick="window.location.href='index_NoticeManagement_AWS.html';">キャンセル</button>
       </div>
     </form>
   </main>
-
-  <footer>
-    <p>&copy; お知らせ管理システム</p>
-  </footer>
-
   <script>
     document.getElementById('addNewsForm').addEventListener('submit', function(event) {
-      event.preventDefault(); // フォーム送信を防止
-
+      // フォームから値を取得
       const title = document.getElementById('newsTitle').value;
       const content = document.getElementById('newsContent').value;
+      const deadline = document.getElementById('deadline').value;
 
-      alert('お知らせ追加: ' + title + ' - ' + content);
-      // 実際の保存処理はここに追加
-      window.location.href = 'index_NoticeManagement_AWS.html'; // 追加後、一覧画面に戻る
+      // 入力チェック
+      if (!title || !content || !deadline) {
+        alert('すべてのフィールドを入力してください。');
+        event.preventDefault(); // フォーム送信を防止
+      } else {
+        // APIに送信するデータ
+        const data = {
+          Title: title,
+          EmailBody: content,
+          Deadline: deadline
+        };
+
+        // API呼び出し
+        fetch('https://m3h-watanabe-homecloud.azurewebsites.net/api/CreateAnnouncementAWS', { 
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+          alert('お知らせが追加されました。');
+          window.location.href = 'index_NoticeManagement_AWS.html'; // 追加後に一覧画面に戻る
+        })
+        .catch(error => {
+          alert('エラーが発生しました。再度試してください。');
+        });
+
+        event.preventDefault(); // フォーム送信を防止
+      }
     });
   </script>
 </body>
