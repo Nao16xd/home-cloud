@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>お知らせ管理ページ-DL-AWS</title>
+  <title>お知らせ管理ページ-ホームクラウド</title>
   <link rel="stylesheet" href="styles.css">
   <style>
     body {
@@ -69,7 +69,12 @@
       background-color: #d9081e;
     }
 
-    
+    footer {
+      background-color: #f1f1f1;
+      text-align: center;
+      padding: 10px;
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
@@ -81,24 +86,17 @@
     <section class="news-list">
       <h2>お知らせ一覧</h2>
       <ul id="newsList">
-        <li>
-          <input type="checkbox" name="newsSelect" value="1">
-          <span>お知らせ1: サンプル内容</span>
-        </li>
-        <li>
-          <input type="checkbox" name="newsSelect" value="2">
-          <span>お知らせ2: サンプル内容</span>
-        </li>
+        
       </ul>
       <div style="margin-top: 10px;">
-        <button class="add-button" onclick="window.location.href='add_news.html';">追加</button>
+        <button class="add-button" onclick="window.location.href='index_AddNewsHomecloud.html';">追加</button>
         <button class="edit-button" onclick="editNews()">編集</button>
         <button class="delete-button" onclick="deleteNews()">削除</button>
       </div>
     </section>
   </main>
 
-  
+ 
 
   <script>
     // 編集ボタンの処理
@@ -112,10 +110,10 @@
       } else {
         const newsId = selected[0].value;
         // 選択したIDをクエリパラメータとして編集画面に遷移
-        window.location.href = `index_EditNewsAWS.html?id=${newsId}`;
+        window.location.href = `index_EditNewsHomecloud.html?id=${newsId}`;
       }
     }
-
+  
     // 削除ボタンの処理
     function deleteNews() {
       const selected = document.querySelectorAll('input[name="newsSelect"]:checked');
@@ -127,6 +125,43 @@
         alert('削除するお知らせを選択してください');
       }
     }
+  
+    // APIからお知らせ情報を取得して表示する処理
+    async function fetchNews() {
+  try {
+    const response = await fetch('https://m3h-watanabe-homecloud.azurewebsites.net/api/GetLatest100AnnouncementsAWS'); // APIエンドポイントを指定してください
+    if (!response.ok) {
+      throw new Error('お知らせ情報の取得に失敗しました');
+    }
+    const newsData = await response.json();
+    const newsList = document.getElementById('newsList');
+    newsList.innerHTML = ''; // 既存のリストをクリア
+
+    newsData.forEach(news => {
+      const listItem = document.createElement('li');
+      const title = news.title || 'タイトルなし'; // タイトルがない場合のデフォルト値
+      const date = news.date ? formatDate(new Date(news.date)) : '日付不明'; // 日付フォーマット
+
+      listItem.innerHTML = `
+        <input type="checkbox" name="newsSelect" value="${news.id}">
+        <span>${title} (${date})</span>
+      `;
+      newsList.appendChild(listItem);
+    });
+  } catch (error) {
+    console.error(error);
+    alert('お知らせ情報の取得中にエラーが発生しました');
+  }
+}
+
+// 日付を「年 月 日」の形式でフォーマットする関数
+function formatDate(date) {
+  const year = date.getFullYear(); // 年
+  const month = date.getMonth() + 1; // 月（0から始まるので+1）
+  const day = date.getDate(); // 日
+  return `${year}年 ${month}月 ${day}日`;
+}
+window.onload = fetchNews;
   </script>
 </body>
 </html>
