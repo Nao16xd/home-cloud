@@ -140,7 +140,7 @@
     newsData.forEach(news => {
       const listItem = document.createElement('li');
       const title = news.title || 'タイトルなし'; // タイトルがない場合のデフォルト値
-      const date = news.date ? new Date(news.date).toLocaleDateString() : '日付不明'; // 日付フォーマット
+      const date = news.date ? formatDate(new Date(news.date)) : '日付不明'; // 日付フォーマット
 
       listItem.innerHTML = `
         <input type="checkbox" name="newsSelect" value="${news.id}">
@@ -153,6 +153,8 @@
     alert('お知らせ情報の取得中にエラーが発生しました');
   }
 }
+
+// 日付を「年 月 日」の形式でフォーマットする関数
 function formatDate(date) {
   const year = date.getFullYear(); // 年
   const month = date.getMonth() + 1; // 月（0から始まるので+1）
@@ -160,10 +162,6 @@ function formatDate(date) {
   return `${year}年 ${month}月 ${day}日`;
 }
 
-// ページ読み込み時にお知らせ情報を取得
-window.onload = fetchNews;
-
   </script>
-  
 </body>
 </html>
