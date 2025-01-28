@@ -75,6 +75,22 @@
       padding: 10px;
       margin-top: 20px;
     }
+    .news-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.top-link {
+  font-size: 14px;
+  color: #5096c9;
+  text-decoration: none;
+  margin-left: 10px;
+}
+
+.top-link:hover {
+  text-decoration: underline;
+}
   </style>
 </head>
 <body>
@@ -83,9 +99,10 @@
   </header>
 
   <main>
-    <section class="news-list">
+    <div class="news-header">
       <h2>お知らせ一覧</h2>
-      <ul id="newsList">
+      <a class="top-link" href="index.html">トップに戻る</a>
+    </div>
         
       </ul>
       <div style="margin-top: 10px;">
