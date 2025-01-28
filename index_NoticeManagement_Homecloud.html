@@ -153,6 +153,12 @@
     alert('お知らせ情報の取得中にエラーが発生しました');
   }
 }
+function formatDate(date) {
+  const year = date.getFullYear(); // 年
+  const month = date.getMonth() + 1; // 月（0から始まるので+1）
+  const day = date.getDate(); // 日
+  return `${year}年 ${month}月 ${day}日`;
+}
 
 // ページ読み込み時にお知らせ情報を取得
 window.onload = fetchNews;
