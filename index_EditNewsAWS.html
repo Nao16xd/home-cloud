@@ -35,7 +35,7 @@
       font-weight: bold;
     }
 
-    input[type="text"], textarea {
+    input[type="text"], textarea, input[type="date"] {
       width: 100%;
       padding: 10px;
       margin-top: 5px;
@@ -63,11 +63,11 @@
     button:hover {
       opacity: 0.9;
     }
-    header h1 {
-  margin: 0; /* 上下の余白を0に */
-  font-size: 24px; /* フォントサイズも小さく調整 */
-}
 
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
   </style>
 </head>
 <body>
@@ -83,22 +83,62 @@
       <label for="newsContent">内容</label>
       <textarea id="newsContent" name="newsContent" rows="5" required>既存のお知らせ内容</textarea>
 
+      <label for="newsDeadline">締め切り</label>
+      <input type="date" id="newsDeadline" name="newsDeadline" required>
+
       <div style="display: flex; gap: 10px;">
         <button type="submit" class="edit-button">更新</button>
         <button type="button" class="cancel-button" onclick="window.location.href='index_NoticeManagement_AWS.html';">キャンセル</button>
       </div>
     </form>
   </main>
+
   <script>
-    document.getElementById('editNewsForm').addEventListener('submit', function(event) {
+    // クエリパラメータからannouncementIdを取得
+    const urlParams = new URLSearchParams(window.location.search);
+    const announcementId = urlParams.get('id'); // "id"パラメータを取得
+
+    if (!announcementId) {
+      alert('お知らせのIDが指定されていません');
+      // 必要ならばエラーハンドリングやリダイレクト
+    }
+
+    document.getElementById('editNewsForm').addEventListener('submit', async function(event) {
       event.preventDefault(); // フォーム送信を防止
 
       const title = document.getElementById('newsTitle').value;
       const content = document.getElementById('newsContent').value;
+      const deadline = document.getElementById('newsDeadline').value;
 
-      alert('お知らせ更新: ' + title + ' - ' + content);
-      // 実際の更新処理はここに追加
-      window.location.href = 'index_NoticeManagement_AWS.html'; // 更新後、一覧画面に戻る
+      // APIへ送信するデータ
+      const requestData = {
+        Title: title,
+        EmailBody: content,
+        FileUrl: '', // 必要であれば値を設定
+        ConnectionUrl: '', // 必要であれば値を設定
+        Deadline: deadline
+      };
+
+      try {
+        const response = await fetch(`https://m3h-watanabe-homecloud.azurewebsites.net/UpdateAnnouncementAWS/${announcementId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(requestData)
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          alert(result.Message); // 更新完了メッセージ表示
+          window.location.href = 'index_NoticeManagement_AWS.html'; // 更新後、一覧画面に戻る
+        } else {
+          alert('更新に失敗しました');
+        }
+      } catch (error) {
+        console.error(error);
+        alert('APIエラーが発生しました');
+      }
     });
   </script>
 </body>
