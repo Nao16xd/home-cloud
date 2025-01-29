@@ -109,16 +109,35 @@
 
   <script>
     // 削除ボタンの処理
-    function deleteNews() {
-      const selected = document.querySelectorAll('input[name="newsSelect"]:checked');
-      if (selected.length > 0) {
-        const values = Array.from(selected).map(item => item.value);
-        alert('お知らせ ' + values.join(', ') + ' を削除します');
-        // 実際の削除処理はここに追加
-      } else {
-        alert('削除するお知らせを選択してください');
+    async function deleteNews() {
+  const selected = document.querySelectorAll('input[name="newsSelect"]:checked');
+  if (selected.length > 0) {
+    const values = Array.from(selected).map(item => parseInt(item.value));
+    
+    const confirmDelete = confirm(`お知らせ ${values.join(', ')} を削除しますか？`);
+    if (!confirmDelete) return;
+
+    try {
+      const response = await fetch('https://m3h-watanabe-homecloud.azurewebsites.net/api/DeleteAnnouncementsAWS', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ Ids: values })
+      });
+
+      if (!response.ok) {
+        throw new Error('削除処理に失敗しました');
       }
+
+      alert('選択したお知らせを削除しました');
+      fetchNews(); // 再取得
+    } catch (error) {
+      console.error(error);
+      alert('削除中にエラーが発生しました');
     }
+  } else {
+    alert('削除するお知らせを選択してください');
+  }
+}
 
     // APIからお知らせ情報を取得して表示する処理
     async function fetchNews() {
