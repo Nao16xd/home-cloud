@@ -166,66 +166,61 @@
     }
 
     async function editNews() {
-      const selected = document.querySelectorAll('input[name="newsSelect"]:checked');
+  const selected = document.querySelectorAll('input[name="newsSelect"]:checked');
 
-      if (selected.length === 0) {
-        alert('編集するお知らせを選択してください');
-      } else if (selected.length > 1) {
-        alert('編集できるのは1件のみです');
-      } else {
-        selectedNewsId = selected[0].value;
-        const response = await fetch(`https://m3h-watanabe-homecloud.azurewebsites.net/api/GetAnnouncementById/${selectedNewsId}`);
-        const newsItem = await response.json();
+  if (selected.length === 0) {
+    alert('編集するお知らせを選択してください');
+  } else if (selected.length > 1) {
+    alert('編集できるのは1件のみです');
+  } else {
+    selectedNewsId = selected[0].value;
+    const response = await fetch(`https://m3h-watanabe-homecloud.azurewebsites.net/api/AnnouncementAWS/${id}`);
+    const newsItem = await response.json();
 
-        document.getElementById('editTitle').value = newsItem.title;
-        document.getElementById('editContent').value = newsItem.content;
-        document.getElementById('editDeadline').value = newsItem.deadline ? formatDate(new Date(newsItem.deadline)) : '';
+    document.getElementById('editTitle').value = newsItem.title;
+    document.getElementById('editContent').value = newsItem.content;
+    document.getElementById('editDeadline').value = newsItem.deadline ? formatDate(new Date(newsItem.deadline)) : '';
 
-        document.getElementById('editModal').style.display = 'flex';
-      }
-    }
+    document.getElementById('editModal').style.display = 'flex';
+  }
+}
 
-    async function saveEdit() {
-      const newTitle = document.getElementById('editTitle').value.trim();
-      const newContent = document.getElementById('editContent').value.trim();
-      const newDeadline = document.getElementById('editDeadline').value;
+async function saveEdit() {
+  const newTitle = document.getElementById('editTitle').value.trim();
+  const newContent = document.getElementById('editContent').value.trim();
+  const newDeadline = document.getElementById('editDeadline').value;
 
-      if (!newTitle || !newContent || !newDeadline) {
-        alert('全ての項目を入力してください');
-        return;
-      }
+  if (!newTitle || !newContent || !newDeadline) {
+    alert('全ての項目を入力してください');
+    return;
+  }
 
-      const updateData = {
-        id: selectedNewsId,
-        title: newTitle,
-        content: newContent,
-        deadline: newDeadline
-      };
+  const updateData = {
+    id: selectedNewsId,
+    title: newTitle,
+    content: newContent,
+    deadline: newDeadline
+  };
 
-      try {
-        const response = await fetch('https://m3h-watanabe-homecloud.azurewebsites.net/api/AnnouncementAWS/{id}', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(updateData)
-        });
+  try {
+    const response = await fetch(`https://m3h-watanabe-homecloud.azurewebsites.net/api/AnnouncementAWS/${id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updateData)
+    });
 
-        if (!response.ok) throw new Error('お知らせの更新に失敗しました');
-        alert(`お知らせ ${selectedNewsId} を更新しました`);
-        closeModal();
-        fetchNews();
-      } catch (error) {
-        console.error(error);
-        alert('お知らせの更新中にエラーが発生しました');
-      }
-    }
+    if (!response.ok) throw new Error('お知らせの更新に失敗しました');
+    alert(`お知らせ ${selectedNewsId} を更新しました`);
+    closeModal();
+    fetchNews();
+  } catch (error) {
+    console.error(error);
+    alert('お知らせの更新中にエラーが発生しました');
+  }
+}
 
-    function closeModal() {
-      document.getElementById('editModal').style.display = 'none';
-    }
-
-    window.onload = fetchNews;
   </script>
 </body>
 </html>
