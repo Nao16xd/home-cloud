@@ -121,7 +121,7 @@ async function deleteNews() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ Ids: values })  // IDの配列を送信
+        body: JSON.stringify({ id: values })  // IDの配列を送信
       });
 
       if (response.ok) {
