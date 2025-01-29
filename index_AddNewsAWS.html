@@ -94,8 +94,11 @@
       </div>
     </form>
   </main>
+
   <script>
     document.getElementById('addNewsForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // フォーム送信を防止
+
       // フォームから値を取得
       const title = document.getElementById('newsTitle').value;
       const content = document.getElementById('newsContent').value;
@@ -104,7 +107,6 @@
       // 入力チェック
       if (!title || !content || !deadline) {
         alert('すべてのフィールドを入力してください。');
-        event.preventDefault(); // フォーム送信を防止
       } else {
         // APIに送信するデータ
         const data = {
@@ -114,7 +116,7 @@
         };
 
         // API呼び出し
-        fetch('https://m3h-watanabe-homecloud.azurewebsites.net/api/CreateAnnouncementAWS', { 
+        fetch('https://m3h-watanabe-homecloud.azurewebsites.net/api/AnnouncementAWS/1', { // ここは適切なIDを指定
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -129,8 +131,6 @@
         .catch(error => {
           alert('エラーが発生しました。再度試してください。');
         });
-
-        event.preventDefault(); // フォーム送信を防止
       }
     });
   </script>
