@@ -78,13 +78,13 @@
   <main>
     <form id="editNewsForm">
       <label for="newsTitle">タイトル</label>
-      <input type="text" id="newsTitle" name="newsTitle" value="既存のお知らせタイトル" required>
+      <input type="text" id="newsTitle" name="newsTitle" >
 
       <label for="newsContent">内容</label>
-      <textarea id="newsContent" name="newsContent" rows="5" required>既存のお知らせ内容</textarea>
+      <textarea id="newsContent" name="newsContent" rows="5" ></textarea>
 
       <label for="newsDeadline">締め切り</label>
-      <input type="date" id="newsDeadline" name="newsDeadline" required>
+      <input type="date" id="newsDeadline" name="newsDeadline" >
 
       <div style="display: flex; gap: 10px;">
         <button type="submit" class="edit-button">更新</button>
@@ -97,6 +97,8 @@
     // クエリパラメータからannouncementIdを取得
     const urlParams = new URLSearchParams(window.location.search);
     const announcementId = urlParams.get('id'); // "id"パラメータを取得
+
+    console.log("announcementId:", announcementId);
 
     if (!announcementId) {
       alert('お知らせのIDが指定されていません');
