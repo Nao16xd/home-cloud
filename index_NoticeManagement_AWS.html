@@ -52,6 +52,10 @@
       cursor: pointer;
     }
 
+    button:hover {
+      opacity: 0.9;
+    }
+
     .add-button {
       background-color: #5096c9;
     }
@@ -64,37 +68,42 @@
       background-color: #d9081e;
     }
 
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      justify-content: center;
-      align-items: center;
-    }
-
-    .modal-content {
-      background-color: white;
-      padding: 20px;
-      border-radius: 8px;
-      width: 350px;
+    footer {
+      background-color: #f1f1f1;
       text-align: center;
+      padding: 10px;
+      margin-top: 20px;
     }
 
-    .modal input, .modal textarea {
-      width: 100%;
-      padding: 5px;
-      margin-top: 10px;
-    }
-
-    .modal-buttons {
-      margin-top: 10px;
+    .news-header {
       display: flex;
-      justify-content: space-around;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .top-link {
+      font-size: 14px;
+      color: #5096c9;
+      text-decoration: none;
+      margin-left: 10px;
+    }
+
+    .top-link:hover {
+      text-decoration: underline;
+    }
+
+    .edit-form {
+      margin-top: 20px;
+      display: none;
+    }
+
+    .edit-form input, .edit-form textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
     }
   </style>
 </head>
@@ -104,51 +113,110 @@
   </header>
 
   <main>
-    <h2>お知らせ一覧</h2>
-    <ul id="newsList"></ul>
+    <div class="news-header">
+      <h2>お知らせ一覧</h2>
+      <a class="top-link" href="index.html">トップに戻る</a>
+    </div>
+    <ul id="newsList">
+    </ul>
     <div style="margin-top: 10px;">
       <button class="add-button" onclick="window.location.href='index_AddNewsAWS.html';">追加</button>
-      <button class="edit-button" onclick="editNews()">編集</button>
       <button class="delete-button" onclick="deleteNews()">削除</button>
+    </div>
+
+    <!-- 編集フォーム -->
+    <div class="edit-form">
+      <h3>お知らせ編集</h3>
+      <input type="text" id="editTitle" placeholder="タイトルを編集" />
+      <textarea id="editContent" placeholder="内容を編集" rows="4"></textarea>
+      <button class="edit-button" onclick="saveEdits()">保存</button>
+      <button class="edit-button" onclick="cancelEdit()">キャンセル</button>
     </div>
   </main>
 
-  <!-- 編集モーダル -->
-  <div id="editModal" class="modal">
-    <div class="modal-content">
-      <h3>お知らせを編集</h3>
-      <input type="text" id="editTitle" placeholder="タイトル">
-      <textarea id="editContent" rows="4" placeholder="内容"></textarea>
-      <input type="date" id="editDeadline">
-
-      <div class="modal-buttons">
-        <button onclick="saveEdit()">保存</button>
-        <button onclick="closeModal()">キャンセル</button>
-      </div>
-    </div>
-  </div>
-
   <script>
-    let selectedNewsId = null;
+    let editingNewsId = null;
 
+    // 編集フォームの表示/非表示
+    function showEditForm(newsId, title, content) {
+      editingNewsId = newsId;
+      document.getElementById('editTitle').value = title;
+      document.getElementById('editContent').value = content;
+      document.querySelector('.edit-form').style.display = 'block';
+    }
+
+    function cancelEdit() {
+      document.querySelector('.edit-form').style.display = 'none';
+    }
+
+    // 編集内容を保存
+    async function saveEdits() {
+      const title = document.getElementById('editTitle').value;
+      const content = document.getElementById('editContent').value;
+
+      if (!title || !content) {
+        alert('タイトルと内容を入力してください');
+        return;
+      }
+
+      try {
+        // APIを使って編集を保存（仮のAPIエンドポイント）
+        const response = await fetch(`https://m3h-watanabe-homecloud.azurewebsites.net/api/UpdateAnnouncementAWS/${editingNewsId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            title: title,
+            content: content
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error('更新に失敗しました');
+        }
+
+        alert('お知らせが更新されました');
+        fetchNews(); // 更新後にリストを再取得
+        cancelEdit(); // 編集フォームを隠す
+      } catch (error) {
+        console.error(error);
+        alert('お知らせの更新中にエラーが発生しました');
+      }
+    }
+
+    // 削除ボタンの処理
+    function deleteNews() {
+      const selected = document.querySelectorAll('input[name="newsSelect"]:checked');
+      if (selected.length > 0) {
+        const values = Array.from(selected).map(item => item.value);
+        alert('お知らせ ' + values.join(', ') + ' を削除します');
+        // 実際の削除処理はここに追加
+      } else {
+        alert('削除するお知らせを選択してください');
+      }
+    }
+
+    // APIからお知らせ情報を取得して表示する処理
     async function fetchNews() {
       try {
-        const response = await fetch('https://m3h-watanabe-homecloud.azurewebsites.net/api/GetLatest100AnnouncementsAWS');
-        if (!response.ok) throw new Error('お知らせ情報の取得に失敗しました');
-
+        const response = await fetch('https://m3h-watanabe-homecloud.azurewebsites.net/api/GetLatest100AnnouncementsAWS'); // APIエンドポイントを指定してください
+        if (!response.ok) {
+          throw new Error('お知らせ情報の取得に失敗しました');
+        }
         const newsData = await response.json();
         const newsList = document.getElementById('newsList');
-        newsList.innerHTML = '';
+        newsList.innerHTML = ''; // 既存のリストをクリア
 
         newsData.forEach(news => {
           const listItem = document.createElement('li');
-          const title = news.title || 'タイトルなし';
-          const content = news.content || '内容なし';
-          const deadline = news.deadline ? formatDate(new Date(news.deadline)) : '締切日なし';
+          const title = news.title || 'タイトルなし'; // タイトルがない場合のデフォルト値
+          const date = news.date ? formatDate(new Date(news.date)) : '日付不明'; // 日付フォーマット
 
           listItem.innerHTML = `
             <input type="checkbox" name="newsSelect" value="${news.id}">
-            <span>${title} - ${content} (締切日: ${deadline})</span>
+            <span>${title} (${date})</span>
+            <button class="edit-button" onclick="showEditForm(${news.id}, '${title}', '${news.content}')">編集</button>
           `;
           newsList.appendChild(listItem);
         });
@@ -158,69 +226,12 @@
       }
     }
 
+    // 日付を「年 月 日」の形式でフォーマットする関数
     function formatDate(date) {
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
-      return `${year}-${month}-${day}`;
-    }
-
-    async function editNews() {
-      const selected = document.querySelectorAll('input[name="newsSelect"]:checked');
-
-      if (selected.length === 0) {
-        alert('編集するお知らせを選択してください');
-      } else if (selected.length > 1) {
-        alert('編集できるのは1件のみです');
-      } else {
-        selectedNewsId = selected[0].value;
-        const response = await fetch(`https://m3h-watanabe-homecloud.azurewebsites.net/api/GetAnnouncementById/${selectedNewsId}`);
-        const newsItem = await response.json();
-
-        document.getElementById('editTitle').value = newsItem.title;
-        document.getElementById('editContent').value = newsItem.content;
-        document.getElementById('editDeadline').value = newsItem.deadline ? formatDate(new Date(newsItem.deadline)) : '';
-
-        document.getElementById('editModal').style.display = 'flex';
-      }
-    }
-
-    async function saveEdit() {
-  const newTitle = document.getElementById('editTitle').value.trim();
-  const newContent = document.getElementById('editContent').value.trim();
-  const newDeadline = document.getElementById('editDeadline').value;
-
-  if (!newTitle || !newContent || !newDeadline) {
-    alert('全ての項目を入力してください');
-    return;
-  }
-
-  const updateData = {
-    title: newTitle,
-    emailBody: newContent,  // フロントエンドで内容として使われている部分
-    deadline: newDeadline
-  };
-
-  try {
-    const response = await fetch(`https://m3h-watanabe-homecloud.azurewebsites.net/api/AnnouncementAWS/${selectedNewsId}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updateData)
-    });
-
-    if (!response.ok) throw new Error('お知らせの更新に失敗しました');
-    alert(`お知らせ ${selectedNewsId} を更新しました`);
-    closeModal();
-    fetchNews();
-  } catch (error) {
-    console.error(error);
-    alert('お知らせの更新中にエラーが発生しました');
-  }
-}
-    function closeModal() {
-      document.getElementById('editModal').style.display = 'none';
+      const year = date.getFullYear(); // 年
+      const month = date.getMonth() + 1; // 月（0から始まるので+1）
+      const day = date.getDate(); // 日
+      return `${year}年 ${month}月 ${day}日`;
     }
 
     window.onload = fetchNews;
