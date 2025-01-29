@@ -116,7 +116,7 @@ async function deleteNews() {
     const values = Array.from(selected).map(item => item.value);
     
     try {
-      const response = await fetch('https://m3h-watanabe-homecloud.azurewebsites.net/api/DeleteAnnouncementAWS', {
+      const response = await fetch('https://m3h-watanabe-homecloud.azurewebsites.net/api/DeleteAnnouncementsAWS', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
