@@ -60,10 +60,6 @@
       background-color: #5096c9;
     }
 
-    .edit-button {
-      background-color: #6b6b6b;
-    }
-
     .delete-button {
       background-color: #d9081e;
     }
@@ -75,21 +71,21 @@
       margin-top: 20px;
     }
     .news-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-.top-link {
-  font-size: 14px;
-  color: #5096c9;
-  text-decoration: none;
-  margin-left: 10px;
-}
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .top-link {
+      font-size: 14px;
+      color: #5096c9;
+      text-decoration: none;
+      margin-left: 10px;
+    }
 
-.top-link:hover {
-  text-decoration: underline;
-}
+    .top-link:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -104,34 +100,14 @@
     </div>
     <ul id="newsList">
     </ul>
-        
       
-      <div style="margin-top: 10px;">
-        <button class="add-button" onclick="window.location.href='index_AddNewsHomecloud.html'">追加</button>
-        <button class="edit-button" onclick="editNews()">編集</button>
-        <button class="delete-button" onclick="deleteNews()">削除</button>
-      </div>
-    </section>
+    <div style="margin-top: 10px;">
+      <button class="add-button" onclick="window.location.href='index_AddNewsHomecloud.html'">追加</button>
+      <button class="delete-button" onclick="deleteNews()">削除</button>
+    </div>
   </main>
 
- 
-
   <script>
-    // 編集ボタンの処理
-    function editNews() {
-      const selected = document.querySelectorAll('input[name="newsSelect"]:checked');
-      
-      if (selected.length === 0) {
-        alert('編集するお知らせを選択してください');
-      } else if (selected.length > 1) {
-        alert('編集できるのは1件のみです。1件だけ選択してください');
-      } else {
-        const newsId = selected[0].value;
-        // 選択したIDをクエリパラメータとして編集画面に遷移
-        window.location.href = `index_EditNewsHomecloud.html?id=${newsId}`;
-      }
-    }
-  
     // 削除ボタンの処理
     function deleteNews() {
       const selected = document.querySelectorAll('input[name="newsSelect"]:checked');
@@ -143,43 +119,44 @@
         alert('削除するお知らせを選択してください');
       }
     }
-  
+
     // APIからお知らせ情報を取得して表示する処理
     async function fetchNews() {
-  try {
-    const response = await fetch('https://m3h-watanabe-homecloud.azurewebsites.net/api/GetLatest100Announcements'); // APIエンドポイントを指定してください
-    if (!response.ok) {
-      throw new Error('お知らせ情報の取得に失敗しました');
+      try {
+        const response = await fetch('https://m3h-watanabe-homecloud.azurewebsites.net/api/GetLatest100Announcements'); // APIエンドポイントを指定してください
+        if (!response.ok) {
+          throw new Error('お知らせ情報の取得に失敗しました');
+        }
+        const newsData = await response.json();
+        const newsList = document.getElementById('newsList');
+        newsList.innerHTML = ''; // 既存のリストをクリア
+
+        newsData.forEach(news => {
+          const listItem = document.createElement('li');
+          const title = news.title || 'タイトルなし'; // タイトルがない場合のデフォルト値
+          const date = news.date ? formatDate(new Date(news.date)) : '日付不明'; // 日付フォーマット
+
+          listItem.innerHTML = `
+            <input type="checkbox" name="newsSelect" value="${news.id}">
+            <span>${title} (${date})</span>
+          `;
+          newsList.appendChild(listItem);
+        });
+      } catch (error) {
+        console.error(error);
+        alert('お知らせ情報の取得中にエラーが発生しました');
+      }
     }
-    const newsData = await response.json();
-    const newsList = document.getElementById('newsList');
-    newsList.innerHTML = ''; // 既存のリストをクリア
 
-    newsData.forEach(news => {
-      const listItem = document.createElement('li');
-      const title = news.title || 'タイトルなし'; // タイトルがない場合のデフォルト値
-      const date = news.date ? formatDate(new Date(news.date)) : '日付不明'; // 日付フォーマット
+    // 日付を「年 月 日」の形式でフォーマットする関数
+    function formatDate(date) {
+      const year = date.getFullYear(); // 年
+      const month = date.getMonth() + 1; // 月（0から始まるので+1）
+      const day = date.getDate(); // 日
+      return `${year}年 ${month}月 ${day}日`;
+    }
 
-      listItem.innerHTML = `
-        <input type="checkbox" name="newsSelect" value="${news.id}">
-        <span>${title} (${date})</span>
-      `;
-      newsList.appendChild(listItem);
-    });
-  } catch (error) {
-    console.error(error);
-    alert('お知らせ情報の取得中にエラーが発生しました');
-  }
-}
-
-// 日付を「年 月 日」の形式でフォーマットする関数
-function formatDate(date) {
-  const year = date.getFullYear(); // 年
-  const month = date.getMonth() + 1; // 月（0から始まるので+1）
-  const day = date.getDate(); // 日
-  return `${year}年 ${month}月 ${day}日`;
-}
-window.onload = fetchNews;
+    window.onload = fetchNews;
   </script>
 </body>
 </html>
