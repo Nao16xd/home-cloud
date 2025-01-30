@@ -140,27 +140,27 @@
 
     // お知らせを削除する処理
     async function deleteNews(newsId) {
-      const confirmDelete = confirm("このお知らせを削除しますか？");
-      if (!confirmDelete) return;
+  const confirmDelete = confirm("このお知らせを削除しますか？");
+  if (!confirmDelete) return;
 
-      try {
-        const response = await fetch('https://m3h-watanabe-homecloud.azurewebsites.net/api/DeleteAnnouncements', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify([newsId]) // 削除するお知らせIDを配列として送信
-        });
+  try {
+    const response = await fetch('https://m3h-watanabe-homecloud.azurewebsites.net/api/DeleteAnnouncements', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ AWS_Announcement_id: newsId }) // 単一のIDをオブジェクトとして送信
+    });
 
-        if (!response.ok) {
-          throw new Error("削除に失敗しました");
-        }
-
-        alert("お知らせを削除しました。");
-        fetchNews(); // 最新の一覧を取得
-      } catch (error) {
-        console.error(error);
-        alert("削除処理中にエラーが発生しました。");
-      }
+    if (!response.ok) {
+      throw new Error("削除に失敗しました");
     }
+
+    alert("お知らせを削除しました。");
+    fetchNews(); // 最新の一覧を取得
+  } catch (error) {
+    console.error(error);
+    alert("削除処理中にエラーが発生しました。");
+  }
+}
   </script>
 </body>
 </html>
