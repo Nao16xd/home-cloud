@@ -157,7 +157,7 @@
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ id: newsId }) // 削除するお知らせのIDを送信
+          body: JSON.stringify({ AWS_Announcement_id: newsId }) // 削除するお知らせのIDを送信
         });
 
         if (!response.ok) {
