@@ -108,17 +108,7 @@
   </main>
 
   <script>
-    // 削除ボタンの処理
-    function deleteNews() {
-      const selected = document.querySelectorAll('input[name="newsSelect"]:checked');
-      if (selected.length > 0) {
-        const values = Array.from(selected).map(item => item.value);
-        alert('お知らせ ' + values.join(', ') + ' を削除します');
-        // 実際の削除処理はここに追加
-      } else {
-        alert('削除するお知らせを選択してください');
-      }
-    }
+    
 
     // APIからお知らせ情報を取得して表示する処理
     async function fetchNews() {
