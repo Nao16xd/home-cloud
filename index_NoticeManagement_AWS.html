@@ -119,12 +119,12 @@
         const newsData = await response.json();
         const newsList = document.getElementById('newsList');
         newsList.innerHTML = ''; // 既存のリストをクリア
-
+  
         newsData.forEach(news => {
           const listItem = document.createElement('li');
           const title = news.title || 'タイトルなし'; // タイトルがない場合のデフォルト値
           const date = news.date ? formatDate(new Date(news.date)) : '日付不明'; // 日付フォーマット
-
+  
           listItem.innerHTML = `
             <span>${title} (${date})</span>
             <button class="delete-button" onclick="deleteNewsItem(${news.id})">削除</button>
@@ -136,7 +136,7 @@
         alert('お知らせ情報の取得中にエラーが発生しました');
       }
     }
-
+  
     // 日付を「年 月 日」の形式でフォーマットする関数
     function formatDate(date) {
       const year = date.getFullYear();
@@ -144,12 +144,12 @@
       const day = date.getDate();
       return `${year}年 ${month}月 ${day}日`;
     }
-
+  
     // お知らせを削除する関数
     async function deleteNewsItem(newsid) {
       const confirmed = confirm('本当に削除してもよろしいですか？');
       if (!confirmed) return;
-
+  
       try {
         // POSTメソッドで削除APIを呼び出し
         const response = await fetch('https://m3h-watanabe-homecloud.azurewebsites.net/api/delete', {
@@ -157,13 +157,13 @@
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ AWS_Announcement_id: news.id }) // 削除するお知らせのIDを送信
+          body: JSON.stringify({ AWS_Announcement_id: newsid }) // 正しいnewsidを送信
         });
-
+  
         if (!response.ok) {
           throw new Error('削除に失敗しました');
         }
-
+  
         alert('お知らせが削除されました');
         fetchNews(); // 削除後にリストを再取得
       } catch (error) {
@@ -171,8 +171,9 @@
         alert('削除処理中にエラーが発生しました');
       }
     }
-
+  
     window.onload = fetchNews;
   </script>
+  
 </body>
 </html>
