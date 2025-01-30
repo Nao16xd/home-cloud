@@ -146,7 +146,7 @@
     }
 
     // お知らせを削除する関数
-    async function deleteNewsItem(newsid) {
+    async function deleteNewsItem(newsId) {
       const confirmed = confirm('本当に削除してもよろしいですか？');
       if (!confirmed) return;
 
@@ -157,7 +157,7 @@
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ AWS_Announcement_id: newsId }) // 削除するお知らせのIDを送信
+          body: JSON.stringify({ AWS_Announcement_id: newsid }) // 削除するお知らせのIDを送信
         });
 
         if (!response.ok) {
