@@ -104,7 +104,7 @@
     </ul>
       
     <div style="margin-top: 10px;">
-      <button class="add-button" onclick="window.location.href='index_AddNewsAWS.html'">追加</button>
+      <button class="add-button" onclick="window.location.href='index_AddNewsHomecloud.html'">追加</button>
     </div>
   </main>
 
@@ -157,7 +157,7 @@
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ AWS_Announcement_id: newsid }) // 正しいnewsidを送信
+          body: JSON.stringify({ Azure_Announcement_id: newsid }) // 正しいnewsidを送信
         });
   
         if (!response.ok) {
