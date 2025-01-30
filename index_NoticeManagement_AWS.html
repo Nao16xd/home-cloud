@@ -128,7 +128,7 @@
 
           listItem.innerHTML = `
             <span>${title} (${date})</span>
-            <button class="delete-button" onclick="deleteNews(${news.id})">削除</button>
+            <button class="delete-button" onclick="deleteNewsItem(${news.id})">削除</button>
           `;
           newsList.appendChild(listItem);
         });
