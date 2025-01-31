@@ -88,6 +88,9 @@
     .top-link:hover {
       text-decoration: underline;
     }
+    .detail-button {
+      background-color: #4CAF50;
+    }
   </style>
 </head>
 <body>
@@ -96,7 +99,6 @@
   </header>
 
   <main>
-    <div class="news-header">
       <h2>お知らせ一覧</h2>
       <a class="top-link" href="index.html">トップに戻る</a>
     </div>
@@ -127,6 +129,7 @@
   
           listItem.innerHTML = `
             <span>${title} (${date})</span>
+            <button class="detail-button" onclick="viewDetails(${news.id})">詳細</button>
             <button class="delete-button" onclick="deleteNewsItem(${news.id})">削除</button>
           `;
           newsList.appendChild(listItem);
@@ -171,6 +174,10 @@
         alert('削除処理中にエラーが発生しました');
       }
     }
+    function viewDetails(newsid) {
+    localStorage.setItem('AWS_Announcement_id', id);
+    window.location.href = 'index_AnnouncementdetailAWS.html'; // 詳細ページに遷移
+  }
   
     window.onload = fetchNews;
   </script>
