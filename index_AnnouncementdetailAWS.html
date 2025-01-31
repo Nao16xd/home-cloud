@@ -270,7 +270,7 @@ color: #5096c9;
     document.getElementById('announcement-body').querySelector('span').textContent = announcement.emailbody;
     document.getElementById('file-url').href = announcement.fileUrl;
     document.getElementById('file-url').textContent = announcement.fileUrl;
-    document.getElementById('deadline-date').textContent = formatDate(deadline.date);
+    document.getElementById('deadline-date').textContent = formatDate(announcement.deadline);
   }
 }
 function formatDate(dateString) {
