@@ -263,8 +263,8 @@ color: #5096c9;
 
   async function fetchAnnouncementDetails() {
   // localStorageからIDを取得
-  const awsAnnouncementId = localStorage.getItem('announcementId');
-  if (!awsAnnouncementId) {
+  const announcementId = localStorage.getItem('announcementId');
+  if (!announcementId) {
     console.error('お知らせIDが取得できません');
     return;
   }
