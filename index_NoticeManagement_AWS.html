@@ -129,10 +129,13 @@
   
           listItem.innerHTML = `
             <span>${title} (${date})</span>
-            <button class="detail-button" onclick="viewDetails(${news.id})">詳細</button>
             <button class="delete-button" onclick="deleteNewsItem(${news.id})">削除</button>
           `;
           newsList.appendChild(listItem);
+
+          listItem.onclick = () => viewDetails(news.id);
+
+        newsList.appendChild(listItem);
         });
       } catch (error) {
         console.error(error);
