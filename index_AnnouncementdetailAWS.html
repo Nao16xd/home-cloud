@@ -244,7 +244,7 @@ color: #5096c9;
           <h2>タイトル</h2>
           <p id="announcement-date">日付: <span></span></p>
           <p id="announcement-body">お知らせ内容: <span></span></p>
-          <p class="file-link">ファイルURL: <a id="file-url" href="#" target="_blank">リンク</a></p>
+          <p class="file-link">添付資料: <a id="file-url" href="#" target="_blank">リンク</a></p>
           <p class="deadline">締め切り: <span id="deadline-date"></span></p>
         </div>
       </div>
@@ -267,7 +267,7 @@ color: #5096c9;
     const announcement = data[0];
     document.querySelector('h2').textContent = announcement.title;
     document.getElementById('announcement-date').querySelector('span').textContent = formatDate(announcement.date);
-    document.getElementById('announcement-body').querySelector('span').textContent = announcement.emailbody;
+    document.getElementById('announcement-body').querySelector('span').textContent = announcement.emailBody;
     document.getElementById('file-url').href = announcement.fileUrl;
     document.getElementById('file-url').textContent = announcement.fileUrl;
     document.getElementById('deadline-date').textContent = formatDate(announcement.deadline);
