@@ -255,7 +255,7 @@ color: #5096c9;
     // APIを呼び出してお知らせ詳細を取得する
     async function fetchAnnouncementDetails() {
   // localStorageからIDを取得
-  const awsAnnouncementId = localStorage.getItem('AWS_Announcement_id');
+  const awsAnnouncementId = localStorage.getItem('Newsid');
   if (!awsAnnouncementId) {
     console.error('お知らせIDが取得できません');
     return;
