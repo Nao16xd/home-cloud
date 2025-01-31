@@ -266,12 +266,19 @@ color: #5096c9;
   if (data && data.length > 0) {
     const announcement = data[0];
 
-    document.getElementById('announcement-date').querySelector('span').textContent = announcement.Date;
-    document.getElementById('announcement-body').querySelector('span').textContent = announcement.EmailBody;
-    document.getElementById('file-url').href = announcement.FileUrl;
-    document.getElementById('file-url').textContent = announcement.FileUrl;
-    document.getElementById('deadline-date').textContent = announcement.Deadline;
+    document.getElementById('announcement-date').querySelector('span').textContent = formatDate(announcement.date);
+    document.getElementById('announcement-body').querySelector('span').textContent = announcement.emailbody;
+    document.getElementById('file-url').href = announcement.fileUrl;
+    document.getElementById('file-url').textContent = announcement.fileUrl;
+    document.getElementById('deadline-date').textContent = announcement.deadline;
   }
+}
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1; // 月は0から始まるので+1
+  const day = date.getDate();
+  return `${year}年 ${month}月 ${day}日`;
 }
 
     document.addEventListener("DOMContentLoaded", function() {
