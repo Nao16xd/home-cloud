@@ -338,7 +338,7 @@ color: #5096c9;
                 <input type="text" id="employeeNumber" name="employeeNumber" required>
 
                 <label for="name">氏名:</label>
-                <input type="text" id="name" name="name" required>
+                <input type="text" id="displayName" >
 
                 <label for="department">所属:</label>
                 <input type="text" id="department" name="department" required>
@@ -501,6 +501,14 @@ color: #5096c9;
                 }
             });
         });
+        window.onload = function () {
+    const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+    if (userInfo && userInfo.displayName) {
+        // displayNameを氏名入力欄に設定
+        document.getElementById("displayName").value = userInfo.displayName;
+    }
+};
+
     });
     </script>
     

@@ -63,6 +63,7 @@ async function getUserProfile(accessToken) {
         
         // セッションストレージに保存
         sessionStorage.setItem("userInfo", JSON.stringify(user));
+        console.log("セッションストレージに保存されたユーザー情報:", sessionStorage.getItem("userInfo"));
     } else {
         console.error("ユーザー情報取得エラー:", response.statusText);
     }
