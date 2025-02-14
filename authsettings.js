@@ -2,7 +2,7 @@ const msalConfig = {
     auth: {
         clientId: "314e0eee-2ed8-48aa-b5e5-0cae833078de",  // Azure AD アプリのクライアントID
         authority: "https://login.microsoftonline.com/395a39e9-39d1-42c3-8733-b9b1c4157606",
-        redirectUri: "http://localhost:5501"  // Live Server用
+        redirectUri: "https://lemon-water-09417b600.4.azurestaticapps.net"  // Live Server用
     }
 };
 
