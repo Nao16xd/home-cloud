@@ -395,7 +395,14 @@ color: #5096c9;
         const month = date.getMonth() + 1; // 月を取得（0から始まるので1を足す）
         const day = date.getDate(); // 日を取得
         return `${month}月${day}日`; // フォーマットを「？月？日」に
-    }
+        listItem.innerHTML = `
+            <span>${title} (${date})</span>`;
+          newsList.appendChild(listItem);
+
+          listItem.onclick = () => viewDetails(news.id);
+
+        newsList.appendChild(listItem);
+        }
 
     // APIからお知らせを取得して表示
     axios.get('https://m3h-watanabe-homecloud.azurewebsites.net/api/GetLatestImportantAnnouncement') // APIのURLを指定
