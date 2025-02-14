@@ -391,6 +391,7 @@ color: #5096c9;
             });
     });
     function formatDate(dateString) {
+        const listItem = document.createElement('li');
         const date = new Date(dateString); // 日付文字列をDateオブジェクトに変換
         const month = date.getMonth() + 1; // 月を取得（0から始まるので1を足す）
         const day = date.getDate(); // 日を取得
