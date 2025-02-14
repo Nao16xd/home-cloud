@@ -327,7 +327,7 @@ color: black;
                     <input type="text" id="company" name="company" required>
 
                     <label for="department">所属名:</label>
-                    <input type="text" id="department" name="department" required>
+                    <input type="text" id="department">
 
                     <label for="RP_name">申請責任者名:</label>
                     <input type="text" id="RP_name" name="RP_name" required>
@@ -336,7 +336,7 @@ color: black;
                     <input type="text" id="RP_email_address" name="RP_email_address" required>
 
                     <label for="RIC_name">申請担当者名:</label>
-                    <input type="text" id="RIC_name" name="RIC_name" required>
+                    <input type="text" id="displayName">
 
                     <label for="RIC_email_address">申請担当者連絡先(メールアドレス):</label>
                     <input type="text" id="RIC_email_address" name="RIC_email_address" required>
@@ -440,18 +440,9 @@ color: black;
     </div>
 
     <script>
-        function addSiteInput() {
-            const container = document.getElementById("external-sites-container");
-            const newInputDiv = document.createElement("div");
-            newInputDiv.classList.add("input-container");
-            
-            const newInput = document.createElement("input");
-            newInput.type = "text";
-            newInput.name = "append";
-            
-            newInputDiv.appendChild(newInput);
-            container.appendChild(newInputDiv);
-        }
+        document.addEventListener("DOMContentLoaded", function() {
+        const toggleMenus = document.querySelectorAll('.toggle-menu');
+
         toggleMenus.forEach(function(menu) {
             menu.addEventListener('click', function(event) {
                 event.preventDefault();
@@ -470,6 +461,31 @@ color: black;
                 }
             });
         });
+        function addSiteInput() {
+            const container = document.getElementById("external-sites-container");
+            const newInputDiv = document.createElement("div");
+            newInputDiv.classList.add("input-container");
+            
+            const newInput = document.createElement("input");
+            newInput.type = "text";
+            newInput.name = "append";
+            
+            newInputDiv.appendChild(newInput);
+            container.appendChild(newInputDiv);
+        }
+        
+        window.onload = function () {
+    const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+    if (userInfo && userInfo.displayName) {
+        // displayNameを氏名入力欄に設定
+        document.getElementById("displayName").value = userInfo.displayName;
+        document.getElementById("department").value = userInfo.department;
+    }
+};
+        });
+
+
+    
     </script>
 
 </body>

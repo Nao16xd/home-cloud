@@ -341,7 +341,7 @@ color: #5096c9;
                 <input type="text" id="displayName" >
 
                 <label for="department">所属:</label>
-                <input type="text" id="department" name="department" required>
+                <input type="text" id="department" >
 
                 <label for="extension">内線:</label>
                 <input type="text" id="extension" name="extension" required>
@@ -429,7 +429,7 @@ color: #5096c9;
         function validateForm() {
             // 必須項目のチェック
             const employeeNumber = document.getElementById('employeeNumber').value.trim();
-            const name = document.getElementById('name').value.trim();
+            const name = document.getElementById('displayname').value.trim();
             const department = document.getElementById('department').value.trim();
             const extension = document.getElementById('extension').value.trim();
             const environment = document.querySelector('input[name="environment"]:checked');
@@ -506,6 +506,7 @@ color: #5096c9;
     if (userInfo && userInfo.displayName) {
         // displayNameを氏名入力欄に設定
         document.getElementById("displayName").value = userInfo.displayName;
+        document.getElementById("department").value = userInfo.department;
     }
 };
 

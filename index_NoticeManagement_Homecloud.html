@@ -88,6 +88,9 @@
     .top-link:hover {
       text-decoration: underline;
     }
+    .detail-button {
+      background-color: #4CAF50;
+    }
   </style>
 </head>
 <body>
@@ -96,7 +99,6 @@
   </header>
 
   <main>
-    <div class="news-header">
       <h2>お知らせ一覧</h2>
       <a class="top-link" href="index.html">トップに戻る</a>
     </div>
@@ -130,6 +132,10 @@
             <button class="delete-button" onclick="deleteNewsItem(${news.id})">削除</button>
           `;
           newsList.appendChild(listItem);
+
+          listItem.onclick = () => viewDetails(news.id);
+
+        newsList.appendChild(listItem);
         });
       } catch (error) {
         console.error(error);
@@ -171,6 +177,10 @@
         alert('削除処理中にエラーが発生しました');
       }
     }
+    function viewDetails(newsid) {
+      localStorage.setItem('announcementId', newsid);
+    window.location.href = 'index_AnnouncementdetailHomecloud.html'; // 詳細ページに遷移
+  }
   
     window.onload = fetchNews;
   </script>
