@@ -307,7 +307,7 @@ color: #5096c9;
 <div class="aws-sidebar-wrapper">
     <div class="sidebar-title">DL-AWS お知らせ</div>
     <div id="announcement-container2"></div>
-        
+
     </div>
 </div>
 <script>
@@ -318,10 +318,10 @@ color: #5096c9;
                 event.preventDefault();
                 const submenu = this.nextElementSibling;
                 const arrow = this.querySelector('.arrow');
-                
+
                 if (submenu && submenu.classList.contains('submenu')) {
                     submenu.classList.toggle('open');
-                    
+
                     // 矢印を切り替え
                     if (submenu.classList.contains('open')) {
                         arrow.textContent = "▼";
@@ -336,7 +336,7 @@ color: #5096c9;
         const announcementContainer = document.getElementById("announcement-container");
 
         // APIエンドポイントのURL
-        const apiUrl = "https://m3h-watanabe-homecloud.azurewebsites.net/api/GetLatestAnnouncementshomecloud";
+        const apiUrl = "https://m3h-watanabe-homecloud.azurewebsites.net/api/GetLatestAnnouncements";
 
         // APIからお知らせを取得
         fetch(apiUrl)
@@ -391,19 +391,11 @@ color: #5096c9;
             });
     });
     function formatDate(dateString) {
-        const listItem = document.createElement('li');
         const date = new Date(dateString); // 日付文字列をDateオブジェクトに変換
         const month = date.getMonth() + 1; // 月を取得（0から始まるので1を足す）
         const day = date.getDate(); // 日を取得
         return `${month}月${day}日`; // フォーマットを「？月？日」に
-        listItem.innerHTML = `
-            <span>${title} (${date})</span>`;
-          newsList.appendChild(listItem);
-
-          listItem.onclick = () => viewDetails(news.id);
-
-        newsList.appendChild(listItem);
-        }
+    }
 
     // APIからお知らせを取得して表示
     axios.get('https://m3h-watanabe-homecloud.azurewebsites.net/api/GetLatestImportantAnnouncemen') // APIのURLを指定
@@ -421,16 +413,7 @@ color: #5096c9;
         .catch(error => {
             console.error('APIの取得に失敗しました:', error);
         });
-        function viewDetails(newsid) {
-      localStorage.setItem('announcementId', newsid);
-    window.location.href = 'index_Announcementdetailaws.html'; // 詳細ページに遷移
-  }
-  function viewDetails(newsid) {
-      localStorage.setItem('announcementId2', newsid);
-    window.location.href = 'index_AnnouncementdetailHomecloud.html'; // 詳細ページに遷移
-  }
 </script>
 
 </script>
 </body>
-</html>
