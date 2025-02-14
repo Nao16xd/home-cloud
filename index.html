@@ -301,9 +301,7 @@ color: #5096c9;
 <!-- お知らせ サイドバー -->
 <div class="central-sidebar" style="left: 350px; width: 400px;">
     <div class="sidebar-title">ホームクラウドお知らせ</div>
-    <ul id="newsList">
-
-    </ul>
+    <div id="announcement-container"></div>
 </div>
 <!-- DL-AWS サイドバー -->
 <div class="aws-sidebar-wrapper">
@@ -341,7 +339,7 @@ color: #5096c9;
           throw new Error('お知らせ情報の取得に失敗しました');
         }
         const newsData = await response.json();
-        const newsList = document.getElementById('newsList');
+        const newsList = document.getElementById('announcement-container');
         newsList.innerHTML = ''; // 既存のリストをクリア
   
         newsData.forEach(news => {
