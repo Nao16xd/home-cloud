@@ -260,7 +260,7 @@ color: #5096c9;
     return;
   }
 
-  const response = await fetch(`https://m3h-watanabe-homecloud.azurewebsites.net/api/GetAWSAnnouncementDetailHomecloud/${announcementId}`);
+  const response = await fetch(`https://m3h-watanabe-homecloud.azurewebsites.net/api/GetHomecloudAnnouncementDetailHomecloud/${announcementId}`);
   const data = await response.json();
 
   if (data && data.length > 0) {
