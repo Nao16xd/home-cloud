@@ -332,42 +332,35 @@ color: #5096c9;
             });
         });
     });
-    async function fetchNews() {
-      try {
-        const response = await fetch('https://m3h-watanabe-homecloud.azurewebsites.net/api/GetLatestAnnouncementshomecloud'); // APIエンドポイントを指定
-        if (!response.ok) {
-          throw new Error('お知らせ情報の取得に失敗しました');
-        }
-        const newsData = await response.json();
-        const newsList = document.getElementById('announcement-container');
-        newsList.innerHTML = ''; // 既存のリストをクリア
-  
-        newsData.forEach(news => {
-          const listItem = document.createElement('li');
-          const title = news.title || 'タイトルなし'; // タイトルがない場合のデフォルト値
-          const date = news.date ? formatDate(new Date(news.date)) : '日付不明'; // 日付フォーマット
-  
-          listItem.innerHTML = `
-            <span>${title} (${date})</span>`;
-          newsList.appendChild(listItem);
+    document.addEventListener("DOMContentLoaded", () => {
+        const announcementContainer = document.getElementById("announcement-container");
 
-          listItem.onclick = () => viewDetails(news.id);
+        // APIエンドポイントのURL
+        const apiUrl = "https://m3h-watanabe-homecloud.azurewebsites.net/api/GetLatestAnnouncementshomecloud";
 
-        newsList.appendChild(listItem);
-        });
-      } catch (error) {
-        console.error(error);
-        alert('お知らせ情報の取得中にエラーが発生しました');
-      }
-    }
-  
-    // 日付を「年 月 日」の形式でフォーマットする関数
-    function formatDate(date) {
-      const year = date.getFullYear();
-      const month = date.getMonth() + 1;
-      const day = date.getDate();
-      return `${year}年 ${month}月 ${day}日`;
-    }
+        // APIからお知らせを取得
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                // お知らせをHTMLに変換して挿入
+                if (data.length > 0) {
+                    announcementContainer.innerHTML = data.map(announcement => `
+                        <div class="announcement">
+                            <h3>${announcement.title}</h3>
+                            <div class="date">${new Date(announcement.date).toLocaleDateString('ja-JP', {
+                                year: 'numeric', month: 'long', day: 'numeric'
+                            })}</div>
+                        </div>
+                    `).join('');
+                } else {
+                    announcementContainer.innerHTML = "現在お知らせはありません。";
+                }
+            })
+            .catch(error => {
+                console.error("お知らせの取得に失敗しました:", error);
+                announcementContainer.innerHTML = "お知らせの取得に失敗しました。";
+            });
+    });
     document.addEventListener("DOMContentLoaded", () => {
         const announcementContainer = document.getElementById("announcement-container2");
 
