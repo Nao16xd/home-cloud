@@ -413,6 +413,14 @@ color: #5096c9;
         .catch(error => {
             console.error('APIの取得に失敗しました:', error);
         });
+        function viewDetails(newsid) {
+      localStorage.setItem('announcementId', newsid);
+    window.location.href = 'index_Announcementdetailaws.html'; // 詳細ページに遷移
+  }
+  function viewDetails(newsid) {
+      localStorage.setItem('announcementId2', newsid);
+    window.location.href = 'index_AnnouncementdetailHomecloud.html'; // 詳細ページに遷移
+  }
 </script>
 
 </script>
