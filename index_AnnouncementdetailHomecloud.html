@@ -306,6 +306,10 @@ function formatDate(dateString) {
 
     // ページが読み込まれたときにAPIを呼び出す
     window.onload = fetchAnnouncementDetails;
+    document.addEventListener("DOMContentLoaded", function() {
+    // 'Azure_Announcement_id'を削除
+    localStorage.removeItem('Azure_Announcement_id');
+});
   </script>
 </body>
 </html>
