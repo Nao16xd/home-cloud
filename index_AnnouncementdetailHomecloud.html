@@ -307,8 +307,13 @@ function formatDate(dateString) {
     // ページが読み込まれたときにAPIを呼び出す
     window.onload = fetchAnnouncementDetails;
     document.addEventListener("DOMContentLoaded", function() {
-    // 'Azure_Announcement_id'を削除
-    localStorage.removeItem('Azure_Announcement_id');
+    // ローカルストレージからIDを削除
+    if (localStorage.getItem('Azure_Announcement_id')) {
+        localStorage.removeItem('Azure_Announcement_id');
+        console.log('Azure_Announcement_idが削除されました');
+    } else {
+        console.log('削除するIDは存在しません');
+    }
 });
   </script>
 </body>
