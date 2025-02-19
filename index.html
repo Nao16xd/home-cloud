@@ -344,14 +344,27 @@ color: #5096c9;
             .then(data => {
                 // お知らせをHTMLに変換して挿入
                 if (data.length > 0) {
-                    announcementContainer.innerHTML = data.map(announcement => `
-                        <div class="announcement">
+                    announcementContainer.innerHTML = data.map(announcement => 
+                        `<div class="announcement">
                             <h3>${announcement.title}</h3>
                             <div class="date">${new Date(announcement.date).toLocaleDateString('ja-JP', {
                                 year: 'numeric', month: 'long', day: 'numeric'
                             })}</div>
-                        </div>
-                    `).join('');
+                            <button class="view-detail-btn" data-announcement-id="${announcement.Azure_Announcement_id}">詳細を見る</button>
+                        </div>`
+                    ).join('');
+
+                    // ボタンにクリックイベントを追加
+                    const viewDetailBtns = document.querySelectorAll('.view-detail-btn');
+                    viewDetailBtns.forEach(btn => {
+                        btn.addEventListener('click', (event) => {
+                            const announcementId = event.target.getAttribute('data-announcement-id');
+                            // ローカルストレージに保存
+                            localStorage.setItem('Azure_Announcement_id', announcementId);
+                            // 詳細ページに遷移
+                            window.location.href = 'index_AnnouncementdetailHomecloud.html';
+                        });
+                    });
                 } else {
                     announcementContainer.innerHTML = "現在お知らせはありません。";
                 }
@@ -361,6 +374,7 @@ color: #5096c9;
                 announcementContainer.innerHTML = "お知らせの取得に失敗しました。";
             });
     });
+
     document.addEventListener("DOMContentLoaded", () => {
         const announcementContainer = document.getElementById("announcement-container2");
 
