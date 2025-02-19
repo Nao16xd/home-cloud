@@ -345,6 +345,7 @@ color: #5096c9;
                 // お知らせをHTMLに変換して挿入
                 if (data.length > 0) {
                     announcementContainer.innerHTML = data.map(announcement => 
+                        
                         `<div class="announcement" data-announcement-id="${announcement.Azure_Announcement_id}">
                             <h3>${announcement.title}</h3>
                             <div class="date">${new Date(announcement.date).toLocaleDateString('ja-JP', {
@@ -353,6 +354,7 @@ color: #5096c9;
                         </div>`
                     ).join('');
 
+                    
                     // 各お知らせにクリックイベントを追加
                     const announcements = document.querySelectorAll('.announcement');
                     announcements.forEach(announcement => {
@@ -373,7 +375,6 @@ color: #5096c9;
                 announcementContainer.innerHTML = "お知らせの取得に失敗しました。";
             });
     });
-
     document.addEventListener("DOMContentLoaded", () => {
         const announcementContainer = document.getElementById("announcement-container2");
 
@@ -426,9 +427,6 @@ color: #5096c9;
         .catch(error => {
             console.error('APIの取得に失敗しました.:', error);
         });
-        
-
 </script>
 
 </script>
-</body>
