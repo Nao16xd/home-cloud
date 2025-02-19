@@ -312,6 +312,10 @@ color: #5096c9;
 </div>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
+    // 'Azure_Announcement_id'を削除
+    localStorage.removeItem('Azure_Announcement_id');
+});
+    document.addEventListener("DOMContentLoaded", function() {
         const toggleMenus = document.querySelectorAll('.toggle-menu');
         toggleMenus.forEach(function(menu) {
             menu.addEventListener('click', function(event) {
@@ -425,10 +429,8 @@ color: #5096c9;
         .catch(error => {
             console.error('APIの取得に失敗しました.:', error);
         });
-        document.addEventListener("DOMContentLoaded", function() {
-    // 'Azure_Announcement_id'を削除
-    localStorage.removeItem('Azure_Announcement_id');
-});
+        
+
 </script>
 
 </script>
