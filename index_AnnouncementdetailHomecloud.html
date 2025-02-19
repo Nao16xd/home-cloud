@@ -280,15 +280,7 @@ function formatDate(dateString) {
   const day = date.getDate();
   return `${year}年 ${month}月 ${day}日`;
 }
-document.addEventListener("DOMContentLoaded", function() {
-    // ローカルストレージからannouncementIdを削除
-    if (localStorage.getItem('announcementId')) {
-        localStorage.removeItem('announcementId');
-        console.log('announcementIdが削除されました');
-    } else {
-        console.log('announcementIdが存在しません');
-    }
-});
+
 
 
     document.addEventListener("DOMContentLoaded", function() {
@@ -318,7 +310,15 @@ document.addEventListener("DOMContentLoaded", function() {
     window.onload = fetchAnnouncementDetails;
     document.addEventListener("DOMContentLoaded", function() {
     // ローカルストレージからIDを削除
-    
+    document.addEventListener("DOMContentLoaded", function() {
+    // ローカルストレージからannouncementIdを削除
+    if (localStorage.getItem('announcementId')) {
+        localStorage.removeItem('announcementId');
+        console.log('announcementIdが削除されました');
+    } else {
+        console.log('announcementIdが存在しません');
+    }
+});
 });
   </script>
 </body>
