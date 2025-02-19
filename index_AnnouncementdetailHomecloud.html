@@ -271,6 +271,8 @@ color: #5096c9;
     document.getElementById('file-url').href = announcement.fileUrl;
     document.getElementById('file-url').textContent = announcement.fileUrl;
     document.getElementById('deadline-date').textContent = formatDate(announcement.deadline);
+    localStorage.removeItem('announcementId');
+      console.log('announcementIdが削除されました');
   }
 }
 function formatDate(dateString) {
@@ -280,8 +282,6 @@ function formatDate(dateString) {
   const day = date.getDate();
   return `${year}年 ${month}月 ${day}日`;
 }
-
-
 
     document.addEventListener("DOMContentLoaded", function() {
         const toggleMenus = document.querySelectorAll('.toggle-menu');
@@ -310,15 +310,6 @@ function formatDate(dateString) {
     window.onload = fetchAnnouncementDetails;
     document.addEventListener("DOMContentLoaded", function() {
     // ローカルストレージからIDを削除
-    document.addEventListener("DOMContentLoaded", function() {
-    // ローカルストレージからannouncementIdを削除
-    if (localStorage.getItem('announcementId')) {
-        localStorage.removeItem('announcementId');
-        console.log('announcementIdが削除されました');
-    } else {
-        console.log('announcementIdが存在しません');
-    }
-});
 });
   </script>
 </body>
