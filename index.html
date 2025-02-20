@@ -361,7 +361,7 @@ color: #5096c9;
                         announcement.addEventListener('click', (event) => {
                             const announcementId = event.currentTarget.getAttribute('data-announcementId');
                             // ローカルストレージに保存
-                            localStorage.setItem('announcementId', Azure_Announcement_id);
+                            localStorage.setItem('announcementId', announcementId);
                             // 詳細ページに遷移
                             window.location.href = 'index_AnnouncementdetailHomecloud.html';
                         });
