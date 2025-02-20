@@ -306,9 +306,6 @@ function formatDate(dateString) {
 
     // ページが読み込まれたときにAPIを呼び出す
     window.onload = fetchAnnouncementDetails;
-    window.addEventListener('beforeunload', function() {
-    localStorage.clear(); // ローカルストレージをクリア
-  });
   </script>
 </body>
 </html>
