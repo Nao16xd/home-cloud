@@ -252,7 +252,7 @@ color: #5096c9;
   </main>
 
   <script>
-    window.onload = fetchAnnouncementDetails;
+    
   async function fetchAnnouncementDetails() {
   // localStorageからIDを取得
   const announcementId = localStorage.getItem('announcementId');
@@ -307,6 +307,7 @@ function formatDate(dateString) {
       })
 
     // ページが読み込まれたときにAPIを呼び出す
+    window.onload = fetchAnnouncementDetails;
     
   </script>
 </body>
