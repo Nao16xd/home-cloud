@@ -346,7 +346,7 @@ color: #5096c9;
                 if (data.length > 0) {
                     announcementContainer.innerHTML = data.map(announcement => 
 
-                        `<div class="announcement" data-announcement-id="${announcementId.Azure_Announcement_id}">
+                        `<div class="announcement" data-announcement-id="${announcement.Azure_Announcement_id}">
                             <h3>${announcement.title}</h3>
                             <div class="date">${new Date(announcement.date).toLocaleDateString('ja-JP', {
                                 year: 'numeric', month: 'long', day: 'numeric'
