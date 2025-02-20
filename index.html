@@ -387,21 +387,35 @@ color: #5096c9;
             .then(data => {
                 // お知らせをHTMLに変換して挿入
                 if (data.length > 0) {
-                    announcementContainer.innerHTML = data.map(announcement => `
-                        <div class="announcement2">
+                    announcementContainer.innerHTML = data.map(announcement => 
+
+                        `<div class="announcement2" data-announcement-id="${announcement.id}">
                             <h3>${announcement.title}</h3>
                             <div class="date">${new Date(announcement.date).toLocaleDateString('ja-JP', {
                                 year: 'numeric', month: 'long', day: 'numeric'
                             })}</div>
-                        </div>
-                    `).join('');
+                        </div>`
+                    ).join('');
+
+
+                    // 各お知らせにクリックイベントを追加
+                    const announcements = document.querySelectorAll('.announcement2');
+                    announcements.forEach(announcement => {
+                        announcement.addEventListener('click', (event) => {
+                            const announcementId = event.currentTarget.getAttribute('data-announcement-id');
+                            // ローカルストレージに保存
+                            localStorage.setItem('announcementId', announcementId);
+                            // 詳細ページに遷移
+                            window.location.href = 'index_AnnouncementdetailAWS.html';
+                        });
+                    });
                 } else {
-                    announcementContainer2.innerHTML = "現在お知らせはありません。";
+                    announcementContainer.innerHTML = "現在お知らせはありません。";
                 }
             })
             .catch(error => {
                 console.error("お知らせの取得に失敗しました:", error);
-                announcementContainer2.innerHTML = "お知らせの取得に失敗しました。";
+                announcementContainer.innerHTML = "お知らせの取得に失敗しました。";
             });
     });
     function formatDate(dateString) {
