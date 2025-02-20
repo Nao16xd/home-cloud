@@ -359,11 +359,11 @@ color: #5096c9;
                     const announcements = document.querySelectorAll('.announcement');
                     announcements.forEach(announcement => {
                         announcement.addEventListener('click', (event) => {
-                            const announcementId = event.currentTarget.getAttribute('data-announcementId');
+                            const announcementId = event.currentTarget.getAttribute('data-announcement-id');
                             // ローカルストレージに保存
-                            localStorage.setItem('Azure_Announcement_id', announcementId);
+                            localStorage.setItem('announcementId', announcementId);
                             // 詳細ページに遷移
-                            window.location.href = 'index_AnnouncementdetailHomecloud.html';
+                            window.location.href = 'index_AnnouncementdetailHomecloud2.html';
                         });
                     });
                 } else {
