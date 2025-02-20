@@ -427,6 +427,10 @@ color: #5096c9;
         .catch(error => {
             console.error('APIの取得に失敗しました.:', error);
         });
-
+        window.onpageshow = function(event) {
+    if (event.persisted) {
+        localStorage.removeItem('selectedNotice');
+    }
+};
 
 </script>
