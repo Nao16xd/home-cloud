@@ -305,24 +305,6 @@ function formatDate(dateString) {
             });
         });
       })
-      document.addEventListener("DOMContentLoaded", function() {
-    document.querySelectorAll("a").forEach(link => {
-      link.addEventListener("click", function(event) {
-        // リンクが "#" の場合は処理しない
-        if (this.getAttribute("href") === "#") return;
-
-        // ローカルストレージをクリア
-        localStorage.clear();
-
-        // 別タブで開く場合は処理しない
-        if (this.target === "_blank") return;
-
-        // 通常のリンク遷移を実行
-        event.preventDefault();
-        window.location.href = this.href;
-      });
-    });
-  });
 
     // ページが読み込まれたときにAPIを呼び出す
     
