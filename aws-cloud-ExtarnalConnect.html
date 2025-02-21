@@ -239,6 +239,45 @@
         document.getElementById("department").value = userInfo.department;
     }
 };
+document.querySelector("form").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        // フォームデータを取得
+        const formData = new FormData(event.target);
+
+        // データをオブジェクトに変換
+        const data = {
+            AWS_ESC_system: formData.get("system_name"),
+            AWS_ESC_overview: formData.get("system_summary"),
+            AWS_ESC_code: formData.get("system_code"),
+            AWS_ESC_environment: formData.get("environment"),
+            AWS_ESC_Handling_of_personal: formData.get("personalDataHandling"),
+            AWS_ESC_Handling_of_sensitive: formData.get("sensitiveDataHandling"),
+            AWS_ESC_External_site_name: formData.get("append"),
+            AWS_ESC_Desired_at: formData.get("preferredDate"),
+        };
+
+        // APIへのPOSTリクエスト
+        fetch('https://<YOUR_FUNCTION_URL>/CreateAWS_ESC', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+            // 成功した場合の処理
+            alert('申請が正常に送信されました。');
+            // フォームをリセットする
+            event.target.reset();
+        })
+        .catch(error => {
+            // エラーハンドリング
+            alert('申請の送信に失敗しました。');
+            console.error('Error:', error);
+        });
+    });
 
     
     </script>
