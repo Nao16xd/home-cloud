@@ -245,6 +245,10 @@ document.querySelector("form").addEventListener("submit", function (event) {
         // フォームデータを取得
         const formData = new FormData(event.target);
 
+        const preferredDate = new Date(formData.get("preferredDate"));
+        const isoPreferredDate = preferredDate.toISOString(); // 例: 2025-02-21T00:00:00.000Z
+
+
         // データをオブジェクトに変換
         const data = {
             AWS_ESC_system: formData.get("system_name"),
@@ -254,7 +258,7 @@ document.querySelector("form").addEventListener("submit", function (event) {
             AWS_ESC_Handling_of_personal: formData.get("personalDataHandling"),
             AWS_ESC_Handling_of_sensitive: formData.get("sensitiveDataHandling"),
             AWS_ESC_External_site_name: formData.get("append"),
-            AWS_ESC_Desired_at: formData.get("preferredDate"),
+            AWS_ESC_Desired_at: isoPreferredDate,
         };
 
         // APIへのPOSTリクエスト
