@@ -251,8 +251,9 @@ document.querySelector("form").addEventListener("submit", function (event) {
         // フォームデータを取得
         const formData = new FormData(event.target);
 
-        const preferredDate = new Date(formData.get("preferredDate"));
-        const isoPreferredDate = preferredDate.toISOString(); // 例: 2025-02-21T00:00:00.000Z
+        
+        const isoPreferredDate = new Date(formData.get("preferredDate")).toISOString().split("T")[0];
+ // 例: 2025-02-21T00:00:00.000Z
 
 
         // データをオブジェクトに変換
