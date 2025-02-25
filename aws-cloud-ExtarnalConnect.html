@@ -209,11 +209,17 @@
                         </div>
                     </div>
                     <button class="alter" type="button" onclick="addSiteInput()">追加</button>
+                    <label for="request_type">申請内容:</label>
+<select id="request_type" name="request_type" required>
+    <option value="追加">追加</option>
+    <option value="削除">削除</option>
+</select>
                 </fieldset>
             </div>
             
             <div class="button-container">
                 <button type="submit">申請</button>
+                
             </div>
         </form>
     </div>
@@ -259,6 +265,7 @@ document.querySelector("form").addEventListener("submit", function (event) {
             AWS_ESC_Handling_of_sensitive: formData.get("sensitiveDataHandling"),
             AWS_ESC_External_site_name: formData.get("append"),
             AWS_ESC_Desired_at: isoPreferredDate,
+            AWS_ESC_Action: formData.get("request_type"),
         };
 
         // APIへのPOSTリクエスト
