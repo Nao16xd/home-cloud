@@ -138,7 +138,23 @@ color: #5096c9;
     .top-link:hover {
       text-decoration: underline;
     }
-
+    .main-content {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        margin-left: 270px; /* サイドバーの幅 + 余白 */
+        padding: 20px;
+    }
+    #newsList {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        padding: 10px;
+        width: 70%;
+        align-self: flex-end;
+    }
 
 
     </style>
@@ -151,10 +167,10 @@ color: #5096c9;
 </header>
 
 <main>
-    <a class="top-link" href="index.html">トップに戻る</a>
+    <div class="main-content">
+        <a class="top-link" href="index.html">トップに戻る</a>
+        <ul id="newsList"></ul>
     </div>
-    <ul id="newsList">
-    </ul>
 
 <div class="container">
     <div class="sidebar-wrapper">
