@@ -6,11 +6,13 @@
     <title>お知らせトップ</title>
     <style>
         body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+            font-family: Arial, sans-serif;
+            background-color: #f9f9fc;
+            margin: 0;
+            padding: 0;
+            display: flex; /* 横並び */
+            height: 100vh; /* 高さを100%に設定 */
+        }
 
     header {
       background: linear-gradient(to right, #140079 70%, #d2d6e8);
@@ -99,6 +101,7 @@ color: #5096c9;
   align-items: stretch;
   margin: 0; /* 余計な隙間をなくす */
     padding: 0;  /* 高さを揃える */
+    overflow: hidden;
 }
 .submenu {
     display: none;
@@ -142,7 +145,7 @@ color: #5096c9;
         display: flex;
         flex-direction: column;
         flex: 1;
-        margin-left: 270px; /* サイドバーの幅 + 余白 */
+        margin-left: 250px; /* サイドバーの幅 + 余白 */
         padding: 20px;
     }
     #newsList {
@@ -160,7 +163,20 @@ color: #5096c9;
     padding: 20px;
     background-color: #f9f9f9;
 }
-    
+ul {
+      list-style: none;
+      padding: 0;
+    }
+li {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+.news-list {
+      margin-bottom: 20px;
+    }
 
 
     </style>
