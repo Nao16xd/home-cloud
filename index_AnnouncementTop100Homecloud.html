@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>お知らせトップ</title>
+    <style>
+        body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    header {
+      background: linear-gradient(to right, #140079 70%, #d2d6e8);
+      color: white;
+      padding: 15px;
+      text-align: center;
+      height: 60px;
+    }
+
+    .sidebar-wrapper {
+    position: fixed; /* 固定配置 */
+    top: 90px;       /* 上部からの距離 */
+    left: 0px;       /* 左端からの距離 */
+    width: 250px;     /* 幅 */
+    height: 250vh; /* ビューポートの高さを超えないように設定 */
+    overflow-y: auto; /* 縦スクロール有効 */
+    background-color: #f4f4f4;
+    border: 1px solid #cccccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+        /* ホームクラウド サイドバー */
+        .sidebar-wrapper {
+            left: 0px;
+            background-color: #d2d6e8;
+        }
+        .sidebar-title {
+            background-color: transparent;
+            color: black;
+            padding: 10px;
+            font-size: 16px;
+            text-align: center;
+            font-weight: bold;
+            top: 10px;
+        }
+        .menu-section {
+            margin-bottom: 15px;
+        }
+        .menu-section a {
+            display: block;
+            padding: 3px;
+            color: #3498db;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .menu-section a:hover {
+            text-decoration: underline;
+        }
+        .sidebar-title {
+            background-color: transparent;
+            color: black;
+            padding: 10px;
+            font-size: 16px;
+            text-align: center;
+            font-weight: bold;
+            top: 10px;
+        }
+        .menu-section {
+            margin-bottom: 15px;
+        }
+        .menu-section a {
+            display: block;
+            padding: 3px;
+            color: black;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .menu-section a:hover {
+            text-decoration: underline;
+        }
+        .sidebar-title{
+    color:#140079
+}
+.menu-section h1{
+color: #5096c9;
+}
+.menu-section h1 {
+    display: block;
+    padding: 10px;
+    color: black; /* 文字色を青に変更 */
+    text-decoration: none;
+    font-size: 14px;
+}
+.container {
+  display: flex;
+  align-items: stretch;
+  margin: 0; /* 余計な隙間をなくす */
+    padding: 0;  /* 高さを揃える */
+}
+.submenu {
+    display: none;
+    padding-left: 20px;
+}
+
+.submenu a {
+    padding: 5px;
+    color: #3498db;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.submenu a:hover {
+    text-decoration: underline;
+}
+.submenu.open {
+  display: block; /* サブメニューが開かれた場合 */
+}
+.arrow {
+    margin-left: 8px;
+    color: black
+}
+.container {
+      display: flex;
+      align-items: stretch;
+    }
+    .top-link {
+      font-size: 14px;
+      color: #5096c9;
+      text-decoration: none;
+      margin-left: 10px;
+      display: block;
+      text-align: right;
+    }
+
+    .top-link:hover {
+      text-decoration: underline;
+    }
+
+
+
+    </style>
+
+</head>
+<body>
+
+<header>
+    <h1>お知らせ</h1>
+</header>
+
+<main>
+    <a class="top-link" href="index.html">トップに戻る</a>
+    </div>
+    <ul id="newsList">
+    </ul>
+
+<div class="container">
+    <div class="sidebar-wrapper">
+        <div class="sidebar-title">メニュー</div>
+        <div class="menu-section">
+            <h1>ホームクラウド 各種申請</h1>
+            <a href="#" class="toggle-menu menu-title"><span class="arrow">▶</span>アプリ運用</a>
+            <div class="submenu">
+                <a href="#"><span class="arrow">▶</span>デプロイ申請システム利用申請</a>
+                <a href="#">作業依頼表</a>
+            </div>
+            <a href="#" class="toggle-menu menu-title"><span class="arrow">▶</span>Azureインフラ運用</a>
+            <div class="submenu">
+                <a href="#"><span class="arrow">▶</span>DNSレコード登録申請</a>
+                <a href="#" class="toggle-menu"><span class="arrow">▶</span>ジョブ実行エージェント申請履歴</a>
+                <div class="submenu">
+                    <a href="home-cloud-job.html">申請</a>
+                    <a href="index_JobAgentHistory.html">申請履歴一覧</a>
+                </div>
+            </div>
+            <a href="#" class="toggle-menu menu-title"><span class="arrow">▶</span>AzureAD申請</a>
+            <div class="submenu">
+                <a href="#"><span class="arrow">▶</span>Azureアカウント登録申請</a>
+                <a href="#"><span class="arrow">▶</span>Azureグループメンバー変更申請</a>
+                <a href="#"><span class="arrow">▶</span>AzureDevOpsグループ（組織）登録申請</a>
+                <a href="#" class="toggle-menu"><span class="arrow">▶</span>Azureアカウントパスワードリセット申請履歴</a>
+                <div class="submenu">
+                    <a href="home-cloud-reset.html">申請</a>
+                    <a href="index_HomeCloudHistory.html">申請履歴一覧</a>
+                </div>
+                <a href="#"><span class="arrow">▶</span>ホームクラウドJP1利用申請</a>
+            </div>
+            <a href="#" class="toggle-menu menu-title"><span class="arrow">▶</span>Azure監視申請</a>
+            <div class="submenu">
+                <a href="#"><span class="arrow">▶</span>WEBレスポンス監視申請</a>
+                <a href="#"><span class="arrow">▶</span>イベントログ監視申請</a>
+                <a href="#"><span class="arrow">▶</span>プロセス監視申請</a>
+                <a href="#"><span class="arrow">▶</span>警告アラートメール送信先設定申請</a>
+                <a href="#"><span class="arrow">▶</span>死活監視申請</a>
+                <a href="#"><span class="arrow">▶</span>性能・容量監視申請</a>
+                <a href="#"><span class="arrow">▶</span>任意ログ監視申請</a>
+            </div>
+            <a href="index_Home-cloud-Manual.html">ホームクラウド マニュアル</a>
+            <h1>DL-AWS 各種申請</h1>
+            <a href="#" class="toggle-menu menu-title"><span class="arrow">▶</span>ジャンル1</a>
+            <div class="submenu">
+                <a href="#"><span class="arrow">▶</span>AWSアカウント利用登録/削除申請</a>
+                <a href="#"><span class="arrow">▶</span>IAMIdentityCenter登録/削除申請</a>
+                <a href="#"><span class="arrow">▶</span>中継用ファイルサーバー ユーザー登録/削除申請</a>
+            </div>
+            <a href="#" class="toggle-menu menu-title"><span class="arrow">▶</span>ジャンル2</a>
+            <div class="submenu">
+                <a href="#"><span class="arrow">▶</span>ネットワーク接続申請</a>
+                <a href="#"><span class="arrow">▶</span>外部サイト接続申請</a>
+                <a href="#"><span class="arrow">▶</span>DNS登録申請</a>
+                <a href="#"><span class="arrow">▶</span>(基盤利用者向け)IAMIdentityCenterユーザー特権申請</a>
+                <a href="#"><span class="arrow">▶</span>外部証明書発行申請</a>
+                <a href="#">社内標準サーバー証明書</a>
+                <a href="#"><span class="arrow">▶</span>IAMユーザーアクセスキー登録削除申請</a>
+                <a href="#"><span class="arrow">▶</span>WAFルール切替申請</a>
+            </div>
+            <a href="index_AWS_Manual.html">DL-AWS マニュアル</a>
+            <a href="index_QA.html">QA</a>
+            <h1>運用担当者用ページ</h1>
+            <a href="#" class="toggle-menu menu-title"><span class="arrow">▶</span>お知らせ管理</a>
+            <div class="submenu">
+                <a href="index_NoticeManagement_Homecloud.html">ホームクラウド</a>
+                <a href="index_NoticeManagement_AWS.html">DL-AWS</a>
+            </div>
+            <a href="index.html">トップへ</a>
+        </div>
+    </div>
+</div>
+</main>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const toggleMenus = document.querySelectorAll('.toggle-menu');
+
+    toggleMenus.forEach(function(menu) {
+        menu.addEventListener('click', function(event) {
+            event.preventDefault();
+            const submenu = this.nextElementSibling;
+            const arrow = this.querySelector('.arrow');
+
+            if (submenu && submenu.classList.contains('submenu')) {
+                submenu.classList.toggle('open');
+
+                // 矢印を切り替え
+                if (submenu.classList.contains('open')) {
+                    arrow.textContent = "▼";
+                } else {
+                    arrow.textContent = "▶";
+                }
+            }
+        });
+    });
+  })
+  <script>
+document.addEventListener("DOMContentLoaded", function () {
+    fetch("https://m3h-watanabe-homecloud.azurewebsites.net/api/GetLatest100AnnouncementsHomecloud")
+        .then(response => response.json())
+        .then(data => {
+            const newsList = document.getElementById("newsList");
+
+            data.forEach(news => {
+                const listItem = document.createElement("li");
+                listItem.textContent = `${news.date} - ${news.title}`;
+                newsList.appendChild(listItem);
+            });
+        })
+        .catch(error => console.error("Error fetching news:", error));
+});
+</script>
+
+</script>
+</body>
+</html>
