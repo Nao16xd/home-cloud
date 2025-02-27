@@ -123,7 +123,7 @@
           const title = news.title || 'タイトルなし'; // タイトルがない場合のデフォルト値
           const date = news.date ? formatDate(new Date(news.date)) : '日付不明'; // 日付フォーマット
   
-          
+          listItem.textContent = `${date} - ${title}`; // タイトルと日付をセット
           newsList.appendChild(listItem);
 
           listItem.onclick = () => viewDetails(news.id);
