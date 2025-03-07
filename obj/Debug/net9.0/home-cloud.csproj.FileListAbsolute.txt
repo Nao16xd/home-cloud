@@ -1,0 +1,15 @@
+C:\Users\xedgeuser\Desktop\home-cloud\bin\Debug\net9.0\home-cloud.exe
+C:\Users\xedgeuser\Desktop\home-cloud\bin\Debug\net9.0\home-cloud.deps.json
+C:\Users\xedgeuser\Desktop\home-cloud\bin\Debug\net9.0\home-cloud.runtimeconfig.json
+C:\Users\xedgeuser\Desktop\home-cloud\bin\Debug\net9.0\home-cloud.dll
+C:\Users\xedgeuser\Desktop\home-cloud\bin\Debug\net9.0\home-cloud.pdb
+C:\Users\xedgeuser\Desktop\home-cloud\obj\Debug\net9.0\home-cloud.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\xedgeuser\Desktop\home-cloud\obj\Debug\net9.0\home-cloud.AssemblyInfoInputs.cache
+C:\Users\xedgeuser\Desktop\home-cloud\obj\Debug\net9.0\home-cloud.AssemblyInfo.cs
+C:\Users\xedgeuser\Desktop\home-cloud\obj\Debug\net9.0\home-cloud.csproj.CoreCompileInputs.cache
+C:\Users\xedgeuser\Desktop\home-cloud\obj\Debug\net9.0\home-cloud.sourcelink.json
+C:\Users\xedgeuser\Desktop\home-cloud\obj\Debug\net9.0\home-cloud.dll
+C:\Users\xedgeuser\Desktop\home-cloud\obj\Debug\net9.0\refint\home-cloud.dll
+C:\Users\xedgeuser\Desktop\home-cloud\obj\Debug\net9.0\home-cloud.pdb
+C:\Users\xedgeuser\Desktop\home-cloud\obj\Debug\net9.0\home-cloud.genruntimeconfig.cache
+C:\Users\xedgeuser\Desktop\home-cloud\obj\Debug\net9.0\ref\home-cloud.dll

@@ -345,22 +345,33 @@ color: #5096c9;
                     <input type="text" id="extension" name="extension" required>
                 </fieldset>
                 
-                <fieldset>
+                <<fieldset>
                     <legend>申請内容</legend>
+ 
+                    <label for="tenantType">テナントタイプ:</label>
+                    <select id="tenantType" name="tenantType" required>
+                        <option value="ST実行">ST実行</option>
+                        <option value="STユーザー">STユーザー</option>
+                        <option value="本番実行">本番実行</option>
+                        <option value="本番ユーザー">本番ユーザー</option>
+                        <option value="本番HD">本番HD</option>
+                    </select>
+ 
                     <label for="targetId">対象ID:</label>
                     <input type="text" id="targetId" name="targetId" required>
-
-                    <label for="environment">環境:</label>
-                    <select id="environment" name="environment" required>
-                        <option value="ST">ST</option>
-                        <option value="本番">本番</option>
-                    </select>
-
-                    <label for="preferredDate">作業希望日:</label>
+ 
+                    <label for="preferredDate">申請日:</label>
                     <input type="date" id="preferredDate" name="preferredDate" required>
-
+ 
                     <label for="reason">申請理由:</label>
                     <textarea id="reason" name="reason" rows="3" required></textarea>
+ 
+                    <label for="fromAddress">送信元アドレス:</label>
+                    <input type="email" id="fromAddress" name="fromAddress" required>
+ 
+                    <label for="toAddress">送信先アドレス:</label>
+                    <input type="email" id="toAddress" name="toAddress" required>
+ 
                 </fieldset>
             </div>
             
@@ -371,54 +382,99 @@ color: #5096c9;
     </div>
     <script>
         document.querySelector('form').addEventListener('submit', function (event) {
+            event.preventDefault(); // フォームのデフォルト送信を防ぐ
             // 入力項目の取得
-            const employeeId = document.getElementById('employeeId');
-            const name = document.getElementById('name');
-            const department = document.getElementById('department');
-            const extension = document.getElementById('extension');
-            const targetId = document.getElementById('targetId');
-            const environment = document.getElementById('environment');
-            const preferredDate = document.getElementById('preferredDate');
-            const reason = document.getElementById('reason');
+  // 入力項目の取得
+  const employeeId = document.getElementById('employeeId').value.trim();
+            const name = document.getElementById('name').value.trim();
+            const department = document.getElementById('department').value.trim();
+            const extension = document.getElementById('extension').value.trim();
+            const targetId = document.getElementById('targetId').value.trim();
+            const environment = document.getElementById('environment').value.trim();
+            const preferredDate = document.getElementById('preferredDate').value.trim();
+            const reason = document.getElementById('reason').value.trim();
+            const tenantType = document.getElementById('tenantType').value.trim(); // フォームから取得
+            const fromAddress = document.getElementById('fromAddress').value.trim(); // フォームから取得
+            const toAddress = document.getElementById('toAddress').value.trim(); // フォームから取得
     
-            // 数字のみをチェックする正規表現
-            const numberPattern = /^[0-9]+$/;
-    
-            // エラーメッセージを格納する配列
-            let errors = [];
-    
-            // 入力チェック
-            if (!employeeId.value || !numberPattern.test(employeeId.value)) {
-                errors.push('社員番号は数字のみで入力してください。');
-            }
-            if (!name.value) {
-                errors.push('氏名を入力してください。');
-            }
-            if (!department.value) {
-                errors.push('所属を入力してください。');
-            }
-            if (!extension.value || !numberPattern.test(extension.value)) {
-                errors.push('内線は数字のみで入力してください。');
-            }
-            if (!targetId.value) {
-                errors.push('対象IDを入力してください。');
-            }
-            if (!environment.value) {
-                errors.push('環境を選択してください。');
-            }
-            if (!preferredDate.value) {
-                errors.push('作業希望日を入力してください。');
-            }
-            if (!reason.value) {
-                errors.push('申請理由を入力してください。');
-            }
+                       // 数字のみをチェックする正規表現
+                       const numberPattern = /^[0-9]+$/;
+       
+       // エラーメッセージを格納する配列
+       let errors = [];
+  
+       // 入力チェック
+       if (!employeeId || !numberPattern.test(employeeId)) {
+           errors.push('社員番号は数字のみで入力してください。');
+       }
+       if (!name) {
+           errors.push('氏名を入力してください。');
+       }
+       if (!department) {
+           errors.push('所属を入力してください。');
+       }
+       if (!extension || !numberPattern.test(extension)) {
+           errors.push('内線は数字のみで入力してください。');
+       }
+       if (!targetId) {
+           errors.push('対象IDを入力してください。');
+       }
+       if (!environment) {
+           errors.push('環境を選択してください。');
+       }
+       if (!preferredDate) {
+           errors.push('申請日を入力してください。');
+       }
+       if (!reason) {
+           errors.push('申請理由を入力してください。');
+       }
+       if (!tenantType) {
+           errors.push('テナントタイプを入力してください。');
+       }
+       if (!fromAddress) {
+           errors.push('送信元アドレスを入力してください。');
+       }
+       if (!toAddress) {
+           errors.push('送信先アドレスを入力してください。');
+       }
     
             // エラーがある場合は送信を停止し、アラートで表示
             if (errors.length > 0) {
-                event.preventDefault();
                 alert(errors.join('\n'));
+            } else {
+                // バリデーション通過後にAzure Functionを呼び出す
+                callAzureFunction(tenantType, fromAddress, toAddress);
             }
         })
+
+        async function callAzureFunction(tenantType, fromAddress, toAddress,subjectId) {
+            const functionUrl = "https://ookawa.azurewebsites.net/api/HttpTrigger1?code=sIrDrOTX1VuDrks2UlR-OhOZZ69ZmekFM1InaGUBHNQaAzFupAWd3g==";
+   
+            const requestData = {
+                parameters: {
+                    TenantType: tenantType,
+                    FromAddress: fromAddress,
+                    ToAddress: toAddress,
+                    SubjectID: subjectId
+                }
+            };
+   
+            try {
+                const response = await fetch(functionUrl, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(requestData)
+                });
+   
+                const result = await response.json();
+                console.log("Response:", result);
+                alert("リクエストが正常に送信されました！");
+            } catch (error) {
+                console.error("Error calling Azure Function:", error);
+                alert("エラーが発生しました。詳細はコンソールを確認してください。");
+            }
+        }
+
         document.addEventListener("DOMContentLoaded", function() {
         const toggleMenus = document.querySelectorAll('.toggle-menu');
 
