@@ -364,16 +364,16 @@ color: black;
                         <option value="本番">本番</option>
                     </select>
 
-                    <label for="environment">個人情報データの取り扱い:</label>
-                    <select id="environment" name="environment" required>
-                        <option value="ST">あり</option>
-                        <option value="本番">なし</option>
+                    <label for="personalDataHandling">個人情報データの取り扱い:</label>
+                    <select id="personalDataHandling" name="personalDataHandling" required>
+                        <option value="あり">あり</option>
+                        <option value="なし">なし</option>
                     </select>
 
-                    <label for="environment">機微情報データの取り扱い:</label>
-                    <select id="environment" name="environment" required>
-                        <option value="ST">あり</option>
-                        <option value="本番">なし</option>
+                    <label for="sensitiveDataHandling">機微情報データの取り扱い:</label>
+                    <select id="sensitiveDataHandling" name="sensitiveDataHandling" required>
+                        <option value="あり">あり</option>
+                        <option value="なし">なし</option>
                     </select>
 
                 </fieldset>
@@ -383,14 +383,14 @@ color: black;
                     <div id="external-sites-container">
                         <div class="input-container">
                             <label for="order">依頼内容:</label>
-                            <select id="order" name="order" required>
+                            <select id="request" name="request" required>
                                 <option value="新規作成">新規作成</option>
                                 <option value="追加">追加</option>
                                 <option value="変更">変更</option>
                                 <option value="削除">削除</option>
                             </select>
 
-                            <label for="order">ドメイン種別:</label>
+                            <label for="domain_type">ドメイン種別:</label>
                             <select id="domain_type" name="domain_type" required>
                                 <option value="内部非本番">内部向けDNSドメイン(非本番)</option>
                                 <option value="内部本番">内部向けDNSドメイン(本番)</option>
@@ -401,13 +401,13 @@ color: black;
                             <label for="fqdn">FQDN:</label>
                             <input type="text" id="fqdn" name="fqdn" required>
 
-                            <label for="order">レコードタイプ:</label>
-                            <select id="domain_type" name="domain_type" required>
-                                <option value="内部非本番">内部向けDNSドメイン(非本番)</option>
-                                <option value="内部本番">内部向けDNSドメイン(本番)</option>
-                                <option value="外部非本番">外部向けDNSドメイン(非本番)</option>
-                                <option value="外部本番">外部向けDNSドメイン(本番)</option>
+                            <label for="record-type">レコードタイプ</label>
+                            <select id="record-type" name="record-type">
+                            <option value="A">A</option>
+                            <option value="AAAA">AAAA</option>
+                            <option value="CNAME">CNAME</option>
                             </select>
+
 
                             <label for="arias">エイリアス:</label>
                             <select id="arias" name="arias" required>
@@ -483,6 +483,58 @@ color: black;
     }
 };
         });
+        document.querySelector("form").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        // フォームデータを取得
+        const formData = new FormData(event.target);
+
+        
+        const isoPreferredDate = new Date(formData.get("preferredDate")).toISOString().split("T")[0];
+ // 例: 2025-02-21T00:00:00.000Z
+
+
+        // データをオブジェクトに変換
+        const data = {
+            AWS_DNSR_system: formData.get("system_name"),
+            AWS_DNSR_overview: formData.get("system_summary"),
+            AWS_DNSR_code: formData.get("system_code"),
+            AWS_DNSR_environment: formData.get("environment"),
+            AWS_DNSR_Handling_of_personal: formData.get("personalDataHandling"),
+            AWS_DNSR_Handling_of_sensitive: formData.get("sensitiveDataHandling"),
+            AWS_DNSR_Desired_at: isoPreferredDate,
+            AWS_DNSR_Request_details:formData.get("order"),
+            AWS_DNSR_Domain_type:formData.get("domain_type"),
+            AWS_DNSR_FQDN:formData.get("fqdn"),
+            AWS_DNSR_record_type:formData.get("record-type"),
+            AWS_DNSR_alias:formData.get("arias"),
+            AWS_DNSR_alias_endpoint:formData.get("endpoint"),
+            AWS_DNSR_alias_region:formData.get("region"),
+            AWS_DNSR_value:formData.get("paramater"),
+            AWS_DNSR_External_TTL:formData.get("ttl"),
+        };
+
+        // APIへのPOSTリクエスト
+        fetch('https://m3h-watanabe-homecloud.azurewebsites.net/api/CreateAWS_DNSR', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+            // 成功した場合の処理
+            alert('申請が正常に送信されました。');
+            // フォームをリセットする
+            event.target.reset();
+        })
+        .catch(error => {
+            // エラーハンドリング
+            alert('申請の送信に失敗しました。');
+            console.error('Error:', error);
+        });
+    });
 
 
     
