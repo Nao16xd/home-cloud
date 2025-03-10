@@ -1,0 +1,3 @@
+[submodule "home-cloud"]
+	path = home-cloud
+	url = https://github.com/Nao16xd/home-cloud
